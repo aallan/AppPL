@@ -1,0 +1,10 @@
+//
+// Prefix header for all source files.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+	#import <UIKit/UIKit.h>
+	#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+	#import <CoreTelephony/CTCarrier.h>
+#endif
