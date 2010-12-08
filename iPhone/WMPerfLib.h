@@ -11,8 +11,8 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 
-#define WMDEBUG 1
-#define WMFLUSH 1
+#define WM_DEBUG 1
+#define WM_FLUSH 1
 
 #define WM_SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
 \

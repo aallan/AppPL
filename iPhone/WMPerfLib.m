@@ -19,6 +19,9 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
 	
 	if( self = [super init] ) {
 		queue = [[WMResponseQueue alloc] init];
+#ifdef WM_TOKEN
+		self.token = WM_TOKEN;
+#endif
 	}
 	return self;
 }
