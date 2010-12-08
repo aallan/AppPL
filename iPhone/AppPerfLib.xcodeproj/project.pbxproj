@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		007E93B912AFC3DD00B1E8CA /* WMPerfLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 007E93AC12AFC3DD00B1E8CA /* WMPerfLib.h */; };
+		007E93B912AFC3DD00B1E8CA /* WMPerfLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 007E93AC12AFC3DD00B1E8CA /* WMPerfLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		007E93BA12AFC3DD00B1E8CA /* WMPerfLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93AD12AFC3DD00B1E8CA /* WMPerfLib.m */; };
 		007E93BC12AFC3DD00B1E8CA /* WMResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93AF12AFC3DD00B1E8CA /* WMResponse.m */; };
 		007E93BE12AFC3DD00B1E8CA /* WMResponseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93B112AFC3DD00B1E8CA /* WMResponseQueue.m */; };
