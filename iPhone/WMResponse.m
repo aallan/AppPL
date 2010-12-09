@@ -49,7 +49,7 @@
 		self.model = [UIDevice currentDevice].model;
 		self.localizedModel = [UIDevice currentDevice].localizedModel;
 
-		CTTelephonyNetworkInfo *netInfo = [[CTTelephonyNetworkInfo alloc] init];
+		CTTelephonyNetworkInfo *netInfo = [[[CTTelephonyNetworkInfo alloc] init] autorelease];
 		CTCarrier *carrier = [netInfo subscriberCellularProvider];
 
 		self.carrierName = [carrier carrierName];
