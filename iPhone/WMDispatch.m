@@ -60,6 +60,7 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 	theURL = [[NSURL URLWithString:url] retain];
 	
 #ifdef WM_DEBUG
+	NSLog(@"theURL = %@", url );
 	NSLog(@"theURL = %@", theURL );
 #endif
 	
@@ -99,10 +100,11 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 
 - (void)connectionDidFinishLoading:(WMURLConnection *)connection {
 	
-	//NSString *content = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding];
-	
 #ifdef WM_DEBUG
     NSLog(@"WMDispatch: Done");
+	NSString *content = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding];
+	NSLog(@"content = %@", content );
+
 #endif
 }
 
