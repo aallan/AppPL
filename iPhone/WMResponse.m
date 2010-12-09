@@ -25,6 +25,7 @@
 @synthesize mobileNetworkCode;
 
 @synthesize ipAddress;
+@synthesize connectionType;
 
 @synthesize initRequest;
 @synthesize didReceiveResponse;
@@ -57,6 +58,7 @@
 		self.mobileNetworkCode = [carrier mobileNetworkCode];
 
 		self.ipAddress = [WMUtil getIPAddress];
+		self.connectionType = [WMUtil connectionType];
 	}
 	return self;
 }

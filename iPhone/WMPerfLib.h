@@ -87,6 +87,7 @@ return self; \
 	NSString *mobileNetworkCode;
 	
 	NSString *ipAddress;
+	NSString *connectionType;
 	
 	CFTimeInterval initRequest;
 	CFTimeInterval didReceiveResponse;
@@ -115,6 +116,7 @@ return self; \
 @property (nonatomic, retain) NSString *mobileNetworkCode;
 
 @property (nonatomic, retain) NSString *ipAddress;
+@property (nonatomic, retain) NSString *connectionType;
 
 @property (nonatomic) CFTimeInterval initRequest;
 @property (nonatomic) CFTimeInterval didReceiveResponse;
