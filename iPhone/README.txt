@@ -20,9 +20,9 @@ Below are the steps on how to start using AppPerfLib.
    * Open your project in Xcode and from the Project menu select "Add to Project..."
    * Browse to where you extracted the SDK, choose "WMPrefLib.h"  and then in the next screen click "Add."
 
-* Add the CoreTelephony framework to your project if it is not already included.
+* Add the CoreTelephony and SystemConfiguration frameworks to your project if it is not already included.
    * AppPerfLib requires this framework to compile.
-   * To add the framework, in the "Groups & Files" panel, and under "Targets," right click on your project's target and select "Get Info." Then, in the "General" tab, click the "+" button below the "Linked Libraries" list and select the CoreTelephony framework.
+   * To add a framework, in the "Groups & Files" panel, and under "Targets," right click on your project's target and select "Get Info." Then, in the "General" tab, click the "+" button below the "Linked Libraries" list and select the CoreTelephony framework. Do the same again for the SystemConfiguration.
 
 * Add to "Other Linker Flags" the value "-ObjC" and "-all_load".
    * From the "Project" menu select "Edit Project Settings."
