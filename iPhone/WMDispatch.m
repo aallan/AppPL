@@ -118,16 +118,14 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
     NSLog(@"WMDispatch: Done");
 	NSString *content = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding];
 	NSLog(@"content = %@", content );
-
-	NSLog(@"connection = %@", connection);
 #endif
 }
 
 - (void)dealloc {
     [super dealloc];
-	[analytics release];
-	[responseData release];
-	[theURL release];
+//	[analytics release];
+//	[responseData release];
+//	[theURL release];
 }
 
 

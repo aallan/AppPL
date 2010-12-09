@@ -64,7 +64,8 @@
 				NSLog(@"ifa_name = %@", [NSString stringWithUTF8String:temp_addr->ifa_name] );
 #endif				
 				// Check if interface is en0 which is the wifi connection on the iPhone
-				if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"])
+				if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"] ||
+				   [[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en1"] )
 				{
 					// Get NSString from C String
 					address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
@@ -93,39 +94,36 @@
 
 +(NSString *)connectionType {
 	NSString *type = @"error";
-	struct ifaddrs *interfaces = NULL;
-	struct ifaddrs *temp_addr = NULL;
-	int success = 0;
 	
-	// retrieve the current interfaces - returns 0 on success
-	success = getifaddrs(&interfaces);
-	if (success == 0)
-	{
-		// Loop through linked list of interfaces
-		temp_addr = interfaces;
-		while(temp_addr != NULL)
-		{
-			if(temp_addr->ifa_addr->sa_family == AF_INET)
-			{
-				
-#ifdef WM_DEBUG
-				NSLog(@"ifa_name = %@", [NSString stringWithUTF8String:temp_addr->ifa_name] );
-#endif				
-				// Check if interface is en0 which is the wifi connection on the iPhone
-				if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
-					type = @"wifi";
-			
-				} else if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"pdp_ip0"]) {
-					type = @"wan";
-				}
-			}
-			
-			temp_addr = temp_addr->ifa_next;
-		}
+	// Create zero addy
+	struct sockaddr_in zeroAddress;
+	bzero(&zeroAddress, sizeof(zeroAddress));
+	zeroAddress.sin_len = sizeof(zeroAddress);
+	zeroAddress.sin_family = AF_INET;
+		
+	// Recover reachability flags
+	SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
+	SCNetworkReachabilityFlags flags;
+		
+	BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
+	CFRelease(defaultRouteReachability);
+		
+	if (!didRetrieveFlags) {
+		NSLog(@"Error. Could not recover network reachability flags");
+		return type;
 	}
+		
+	BOOL isReachable = flags & kSCNetworkFlagsReachable;
+	BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
+	BOOL isWWAN = flags & kSCNetworkReachabilityFlagsIsWWAN;
 	
-	// Free memory
-	freeifaddrs(interfaces);
+	if( isReachable && isWWAN && !needsConnection ) {
+		type = @"wwan";
+	} else if( isReachable && !isWWAN && !needsConnection ) {
+		type = @"wifi";
+	} else {
+		type = @"other";
+	}
 	
 	return type;
 }

@@ -191,6 +191,7 @@ return self; \
 @interface WMWebView : UIWebView <WMWebViewDelegate> {
 	
 	id <WMWebViewDelegate> _myDelegate;
+	WMResponse *analytics;
 	
 }
 
