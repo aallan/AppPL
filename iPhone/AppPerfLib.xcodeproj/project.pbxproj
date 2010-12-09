@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00384B2412B0D982007100C1 /* WMDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 00384B2212B0D982007100C1 /* WMDispatch.m */; };
 		007E93B912AFC3DD00B1E8CA /* WMPerfLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 007E93AC12AFC3DD00B1E8CA /* WMPerfLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		007E93BA12AFC3DD00B1E8CA /* WMPerfLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93AD12AFC3DD00B1E8CA /* WMPerfLib.m */; };
 		007E93BC12AFC3DD00B1E8CA /* WMResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93AF12AFC3DD00B1E8CA /* WMResponse.m */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00384B2212B0D982007100C1 /* WMDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMDispatch.m; sourceTree = "<group>"; };
 		007E93AC12AFC3DD00B1E8CA /* WMPerfLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPerfLib.h; sourceTree = "<group>"; };
 		007E93AD12AFC3DD00B1E8CA /* WMPerfLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMPerfLib.m; sourceTree = "<group>"; };
 		007E93AF12AFC3DD00B1E8CA /* WMResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMResponse.m; sourceTree = "<group>"; };
@@ -93,9 +95,10 @@
 				007E93AD12AFC3DD00B1E8CA /* WMPerfLib.m */,
 				007E93AF12AFC3DD00B1E8CA /* WMResponse.m */,
 				007E93B112AFC3DD00B1E8CA /* WMResponseQueue.m */,
+				00384B2212B0D982007100C1 /* WMDispatch.m */,
 				007E93B412AFC3DD00B1E8CA /* WMURLConnection.m */,
-				007E93B612AFC3DD00B1E8CA /* WMUtil.m */,
 				007E93B812AFC3DD00B1E8CA /* WMWebView.m */,
+				007E93B612AFC3DD00B1E8CA /* WMUtil.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				007E93C112AFC3DD00B1E8CA /* WMURLConnection.m in Sources */,
 				007E93C312AFC3DD00B1E8CA /* WMUtil.m in Sources */,
 				007E93C512AFC3DD00B1E8CA /* WMWebView.m in Sources */,
+				00384B2412B0D982007100C1 /* WMDispatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

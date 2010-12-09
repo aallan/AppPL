@@ -215,4 +215,14 @@ return self; \
 
 @end
 
+#pragma mark -
+#pragma mark WMDispatch
+
+
+@interface WMDispatch : NSObject {
+	
+}
+
+@end
+
 
