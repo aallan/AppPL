@@ -27,8 +27,17 @@
 }
 
 - (void)addResponse:(WMResponse *)response {
+#ifdef WM_DEBUG	
+	NSLog(@"Adding response to queue: %@", response);
+#endif
 	[self.queue addObject:response];
-	NSLog(@"queue = %@", self.queue);
+
+#ifdef WM_DEBUG	
+	NSLog(@"Flushing response to acceptor");
+#endif
+	WMResponse *object = [self popResponse];
+	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
+	[dispatch dispatchResponse:object];
 }
 
 - (void)removeResponse:(WMResponse *)response {

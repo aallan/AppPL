@@ -12,8 +12,6 @@
 #include <arpa/inet.h>
 
 #define WM_DEBUG 1
-#define WM_FLUSH 1
-
 #define WM_SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
 \
 static classname *shared##classname = nil; \
@@ -220,8 +218,14 @@ return self; \
 
 
 @interface WMDispatch : NSObject {
+
+	WMResponse *analytics;
+	NSMutableData *responseData;
+	NSURL *theURL;
 	
 }
+
+- (void)dispatchResponse:(WMResponse *)response;
 
 @end
 

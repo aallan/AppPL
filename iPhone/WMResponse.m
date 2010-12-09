@@ -61,6 +61,53 @@
 	return self;
 }
 
+- (NSString *)description {
+	
+	return [NSString stringWithFormat:
+	 @"\n"
+	 @"url = %@\n"
+	 @"uniqueIdentifier = %@\n"
+	 @"name = %@\n"
+	 @"systemName = %@\n"
+	 @"systemVersion = %@\n" 
+	 @"model = %@\n"
+	 @"localizedModel = %@\n"
+	 @"carrierName = %@\n"
+	 @"isoCountryCode = %@\n"
+	 @"mobileCountryCode = %@\n"
+	 @"mobileNetworkCode = %@\n"
+	 @"ipAddress = %@\n"
+	 @"initRequest = %f\n"
+	 @"didReceiveResponse = %f\n"
+	 @"didReceiveFirstData = %f\n"
+	 @"didFinishLoading = %f\n"
+	 @"bytesReceived = %d\n"
+	 @"error = %d\n"
+	 @"errorString = %@\n"
+	 @"errorCode = %d\n",
+	 self.url,
+	 self.uniqueIdentifier,
+	 self.name,
+	 self.systemName,
+	 self.systemVersion,
+	 self.model,
+	 self.localizedModel,
+	 self.carrierName,
+	 self.isoCountryCode,
+	 self.mobileCountryCode,
+	 self.mobileNetworkCode,
+	 self.ipAddress,
+	 self.initRequest,
+	 self.didReceiveResponse,
+	 self.didReceiveFirstData,
+	 self.didFinishLoading,
+	 self.bytesReceived,
+	 self.error,
+	 self.errorString,
+	 self.errorCode];
+	
+}
+
 - (void)dealloc {
     [super dealloc];
 	[url release];

@@ -81,6 +81,8 @@
 		analytics.didReceiveFirstData = CFAbsoluteTimeGetCurrent(); 
 		firstData = NO;
 	} 
+	analytics.bytesReceived = analytics.bytesReceived + [data length];
+	
 	
 	NSLog(@"magic 3");
 	if( [_myDelegate respondsToSelector:@selector(connection:didReceiveData:)] ) {
