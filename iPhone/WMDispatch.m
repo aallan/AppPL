@@ -37,8 +37,8 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
  X ct = connection type (wifi or wan)
  X cn = application name
  X cv = application version
- td = total time of operation (in msec)
- ds = document size in bytes
+ X td = total time of operation (in msec)
+ X ds = document size in bytes
 
  */
 	NSString *pr = [analytics.url.scheme stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
@@ -105,6 +105,7 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 	NSString *content = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding];
 	NSLog(@"content = %@", content );
 
+	NSLog(@"connection = %@", connection);
 #endif
 }
 
