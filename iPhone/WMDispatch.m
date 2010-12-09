@@ -49,14 +49,14 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 	NSString *ct = [[WMUtil connectionType] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 	NSString *cn = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
 	NSString *cv = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-	NSString *td = [[NSString stringWithFormat:@"%f", 1000.0f*(analytics.didFinishLoading - analytics.initRequest)] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	int td = [[[NSString stringWithFormat:@"%f", 1000.0f*(analytics.didFinishLoading - analytics.initRequest)] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] intValue];
 	NSString *ds = [[NSString stringWithFormat:@"%d", analytics.bytesReceived] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 
 #ifdef WM_DEBUG
-	NSLog(@" pr = %@, ho = %@, po = %@, pa = %@, qs = %@, ct = %@, cn = %@, cv = %@, td = %@, ds = %@", pr, ho, po, pa, qs, ct, cn, cv, td, ds );
+	NSLog(@" pr = %@, ho = %@, po = %@, pa = %@, qs = %@, ct = %@, cn = %@, cv = %@, td = %d, ds = %@", pr, ho, po, pa, qs, ct, cn, cv, td, ds );
 #endif
 	
-	NSString *url = [NSString stringWithFormat:@"http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=%@&ho=%@&po=%@&pa=%@&qs=%@&ct=%@&cn=%@&cv=%@&td=%@&ds=%@", pr, ho, po, pa, qs, ct, cn, cv, td, ds];
+	NSString *url = [NSString stringWithFormat:@"http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=%@&ho=%@&po=%@&pa=%@&qs=%@&ct=%@&cn=%@&cv=%@&td=%d&ds=%@", pr, ho, po, pa, qs, ct, cn, cv, td, ds];
 	theURL = [[NSURL URLWithString:url] retain];
 	
 #ifdef WM_DEBUG
@@ -82,6 +82,20 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 
 - (void)connection:(WMURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	[responseData setLength:0];
+	
+	if ([response respondsToSelector:@selector(statusCode)]) {
+		int statusCode = [((NSHTTPURLResponse *)response) statusCode];
+		if (statusCode >= 400) {
+			[connection cancel];  // stop connecting; no more delegate messages
+			NSDictionary *errorInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:
+												  NSLocalizedString(@"Server returned status code %d",@""),
+												  statusCode] forKey:NSLocalizedDescriptionKey];
+			NSError *statusError = [NSError errorWithDomain:@"NSHTTPPropertyStatusCodeKey" code:statusCode userInfo:errorInfo];
+			[self connection:connection didFailWithError:statusError];
+		}
+	}
+	
+	
 }
 
 - (void)connection:(WMURLConnection *)connection didReceiveData:(NSData *)data {
@@ -90,12 +104,12 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 
 - (void)connection:(WMURLConnection *)connection didFailWithError:(NSError *)error {	
 #ifdef WM_DEBUG
-	NSLog(@"WMDispatch: Error");
+	NSLog(@"WMDispatch: Error %@", error);
 #endif 
 	
 	// Re-add the response to the queue
-	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
-	[singleton.queue addResponse:analytics];
+	//WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	//[singleton.queue addResponse:analytics];
 }
 
 - (void)connectionDidFinishLoading:(WMURLConnection *)connection {
