@@ -72,7 +72,7 @@ return self; \
 
 @interface WMResponse : NSObject {
 	
-	NSString *url;
+	NSURL *url;
 	
 	NSString *uniqueIdentifier;
 	NSString *name;
@@ -100,7 +100,7 @@ return self; \
 	int errorCode;
 }
 
-@property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) NSURL *url;
 
 @property (nonatomic, retain) NSString *uniqueIdentifier;
 @property (nonatomic, retain) NSString *name;
@@ -205,6 +205,7 @@ return self; \
 
 + (NSString *)base64forData:(NSData*)theData;
 + (NSString *)getIPAddress;
++ (NSString *)connectionType;
 
 @end
 

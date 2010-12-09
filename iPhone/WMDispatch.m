@@ -25,7 +25,49 @@
 	NSLog(@"Grabbed response object: %@", analytics);
 #endif
 	
-	//NSString* escapedUrlString = [unescapedString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+/* WatchMouse Acceptor
+ 
+http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&pa=%2Fapicall.php&qs=query_string&ct=wifi&cn=myiphoneapp&cv=1.0&td=320&ds=2345
+
+ X pr = protocol
+ X ho = host
+ X po = port
+ X pa = path (urlencoded)
+ X qs = query string (urlencoded)
+ X ct = connection type (wifi or wan)
+ X cn = application name
+ X cv = application version
+ td = total time of operation (in msec)
+ ds = document size in bytes
+
+ */
+	NSString *pr = [analytics.url.scheme stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSString *ho = [analytics.url.host stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSString *po = [[analytics.url.port stringValue] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSString *pa = [analytics.url.path stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSString *qs = [analytics.url.query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSString *ct = [[WMUtil connectionType] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSString *cn = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+	NSString *cv = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	NSString *td = [[NSString stringWithFormat:@"%f", 1000.0f*(analytics.didFinishLoading - analytics.initRequest)] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSString *ds = [[NSString stringWithFormat:@"%d", analytics.bytesReceived] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+
+#ifdef WM_DEBUG
+	NSLog(@" pr = %@, ho = %@, po = %@, pa = %@, qs = %@, ct = %@, cn = %@, cv = %@, td = %@, ds = %@", pr, ho, po, pa, qs, ct, cn, cv, td, ds );
+#endif
+	
+	NSString *url = [NSString stringWithFormat:@"http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=%@&ho=%@&po=%@&pa=%@&qs=%@&ct=%@&cn=%@&cv=%@&td=%@&ds=%@", pr, ho, po, pa, qs, ct, cn, cv, td, ds];
+	theURL = [[NSURL URLWithString:url] retain];
+	
+#ifdef WM_DEBUG
+	NSLog(@"theURL = %@", theURL );
+#endif
+	
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:theURL];
+	[[NSURLConnection alloc] initWithRequest:request delegate:self];    
+
+	
 }
 
 #pragma mark -

@@ -16,6 +16,7 @@
 	
 	analytics = [[WMResponse alloc] init];
 	analytics.initRequest = CFAbsoluteTimeGetCurrent(); 
+	analytics.url = request.URL;
 	
 	if( self = [super initWithRequest:request delegate:self] ) {
 		NSLog(@"Starting magic");
