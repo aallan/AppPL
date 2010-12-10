@@ -71,12 +71,14 @@
 					address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
 #ifdef WM_DEBUG
 					NSLog(@"wifi ip = %@", address );
+					break;
 #endif					
 				} else if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"pdp_ip0"]) {
 					// Get NSString from C String
 					address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
 #ifdef WM_DEBUG
 					NSLog(@"cell ip = %@", address );
+					break;
 #endif
 				}
 			}
@@ -102,7 +104,7 @@
 	zeroAddress.sin_family = AF_INET;
 		
 	// Recover reachability flags
-	SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
+	SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *) &zeroAddress);
 	SCNetworkReachabilityFlags flags;
 		
 	BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
@@ -112,17 +114,34 @@
 		NSLog(@"Error. Could not recover network reachability flags");
 		return type;
 	}
-		
-	BOOL isReachable = flags & kSCNetworkFlagsReachable;
-	BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
-	BOOL isWWAN = flags & kSCNetworkReachabilityFlagsIsWWAN;
+	
+#ifdef WM_DEBUG
+	NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c\n",
+		  (flags & kSCNetworkReachabilityFlagsIsWWAN)				? 'W' : '-',
+		  (flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
+		  (flags & kSCNetworkReachabilityFlagsTransientConnection)  ? 't' : '-',
+		  (flags & kSCNetworkReachabilityFlagsConnectionRequired)   ? 'c' : '-',
+		  (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic)  ? 'C' : '-',
+		  (flags & kSCNetworkReachabilityFlagsInterventionRequired) ? 'i' : '-',
+		  (flags & kSCNetworkReachabilityFlagsConnectionOnDemand)   ? 'D' : '-',
+		  (flags & kSCNetworkReachabilityFlagsIsLocalAddress)       ? 'l' : '-',
+		  (flags & kSCNetworkReachabilityFlagsIsDirect)             ? 'd' : '-'
+		  );
+#endif
+
+	BOOL isReachable = ((flags & kSCNetworkFlagsReachable) != 0);
+	BOOL needsConnection = ((flags & kSCNetworkFlagsConnectionRequired) != 0);
+	BOOL isWWAN = (( flags & kSCNetworkReachabilityFlagsIsWWAN ) != 0);
 	
 	if( isReachable && isWWAN && !needsConnection ) {
 		type = @"wwan";
-	} else if( isReachable && !isWWAN && !needsConnection ) {
+		NSLog( @"Reachable via WWAN" );
+	} else if ( isReachable && !needsConnection ) {
 		type = @"wifi";
-	} else {
+		NSLog( @"Reachable via WiFi" );
+	} else if ( needsConnection ) {
 		type = @"other";
+		NSLog( @"Needs connection" );
 	}
 	
 	return type;

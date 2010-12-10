@@ -109,6 +109,10 @@
 		NSLog(@"Doesn't respond to selector");
 		[super connection:connection didFailWithError:error];
 	}
+		
+	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	[singleton.queue addResponse:analytics];
+	
 }
 
 - (void)connectionDidFinishLoading:(WMURLConnection *)connection {

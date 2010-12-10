@@ -71,7 +71,7 @@
 
 - (void)webView:(WMWebView *)webView didFailLoadWithError:(NSError *)error {
 	
-	NSLog(@"Black magic happened by an error occured");
+	NSLog(@"Black magic happened but an error occured");
 	
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
 	analytics.error = YES;
@@ -81,6 +81,10 @@
 	if( [_myDelegate respondsToSelector:@selector(webView:didFailLoadWithError:)] ) {
 		[_myDelegate webView:webView didFailLoadWithError:error];
 	}
+	
+	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	[singleton.queue addResponse:analytics];	
+	
 }
 
 @end
