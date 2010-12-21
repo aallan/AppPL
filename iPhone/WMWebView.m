@@ -51,7 +51,16 @@
 	} 
 	
 	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
-	[singleton.queue addResponse:analytics];
+	if ( !singleton.libraryOff ) {
+		if (singleton.libraryDebug ) {
+			NSLog(@"WMURLConnection: webViewDiDFinishLoad: Adding response to queue" );
+		}
+		[singleton.queue addResponse:analytics];
+	} else {
+		if (singleton.libraryDebug ) {
+			NSLog(@"WMURLConnection: webViewDiDFinishLoad: LIBRARY OFF - NO DISPATCH" );
+		}
+	}
 }
 
 
@@ -90,7 +99,16 @@
 	}
 	
 	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
-	[singleton.queue addResponse:analytics];	
+	if ( !singleton.libraryOff ) {
+		if (singleton.libraryDebug ) {
+			NSLog(@"WMURLConnection: webView:didFailLoadWithError: Adding response to queue" );
+		}
+		[singleton.queue addResponse:analytics];
+	} else {
+		if (singleton.libraryDebug ) {
+			NSLog(@"WMURLConnection: webView:didFailLoadWithError: LIBRARY OFF - NO DISPATCH" );
+		}
+	}
 	
 }
 
