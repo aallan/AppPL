@@ -10,6 +10,9 @@
 
 @implementation WMPerfLib
 
+@synthesize libraryDebug;
+@synthesize libraryOff;
+
 @synthesize queue;
 @synthesize token;
 
@@ -30,6 +33,15 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
     [super dealloc];
 	[queue release];
 	[token release];
+	
+}
+
+- (void) status {
+	
+	if ( self.libraryDebug ) {
+		NSLog( @"WMPerfLib Version %f", WM_VERSION );
+		NSLog( @"  debug = %d, on = %d", self.libraryDebug, !self.libraryOff );
+	}
 	
 }
 

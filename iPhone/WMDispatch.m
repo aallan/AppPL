@@ -16,14 +16,12 @@
 
 - (void)dispatchResponse:(WMResponse *)response {
 
-#ifdef WM_DEBUG
-	NSLog(@"WMDispatch: dispatchResponse()");
-#endif
 	analytics = response;
 
-#ifdef WM_DEBUG	
-	NSLog(@"Grabbed response object: %@", analytics);
-#endif
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		//NSLog(@"WMDispatch: dispatchResponse:  Grabbed response object: %@", analytics);
+		NSLog(@"WMDispatch: dispatchResponse:");
+	}
 	
 /* WatchMouse Acceptor
  
@@ -52,17 +50,18 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 	int td = [[[NSString stringWithFormat:@"%f", 1000.0f*(analytics.didFinishLoading - analytics.initRequest)] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] intValue];
 	NSString *ds = [[NSString stringWithFormat:@"%d", analytics.bytesReceived] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 
-#ifdef WM_DEBUG
-	NSLog(@" pr = %@, ho = %@, po = %@, pa = %@, qs = %@, ct = %@, cn = %@, cv = %@, td = %d, ds = %@", pr, ho, po, pa, qs, ct, cn, cv, td, ds );
-#endif
+	/*
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMDispatch: dispatchResponse: pr = %@, ho = %@, po = %@, pa = %@, qs = %@, ct = %@, cn = %@, cv = %@, td = %d, ds = %@", pr, ho, po, pa, qs, ct, cn, cv, td, ds );
+	}
+	 */
 	
 	NSString *url = [NSString stringWithFormat:@"http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=%@&ho=%@&po=%@&pa=%@&qs=%@&ct=%@&cn=%@&cv=%@&td=%d&ds=%@", pr, ho, po, pa, qs, ct, cn, cv, td, ds];
 	theURL = [[NSURL URLWithString:url] retain];
 	
-#ifdef WM_DEBUG
-	NSLog(@"theURL = %@", theURL );
-#endif
-	
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMDispatch: dispatchResponse: theURL = %@", theURL );
+	}	
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:theURL];
 	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];    
@@ -102,9 +101,9 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 }
 
 - (void)connection:(WMURLConnection *)connection didFailWithError:(NSError *)error {	
-#ifdef WM_DEBUG
-	NSLog(@"WMDispatch: Error %@", error);
-#endif 
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMDispatch: connection:didFailWithError: %@", error);
+	}
 	
 	// Re-add the response to the queue
 	//WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
@@ -113,11 +112,11 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 
 - (void)connectionDidFinishLoading:(WMURLConnection *)connection {
 	
-#ifdef WM_DEBUG
-    NSLog(@"WMDispatch: Done");
-	NSString *content = [[[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding] autorelease];
-	NSLog(@"content = %@", content );
-#endif
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMDispatch: connectionDidFinishLoading: Done");
+		NSString *content = [[[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding] autorelease];
+		NSLog(@"WMDispatch: connectionDidFinishLoading: content = '%@'", content );
+	}
 }
 
 - (void)dealloc {

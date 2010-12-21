@@ -60,26 +60,27 @@
 			if(temp_addr->ifa_addr->sa_family == AF_INET)
 			{
 				
-#ifdef WM_DEBUG
-				NSLog(@"ifa_name = %@", [NSString stringWithUTF8String:temp_addr->ifa_name] );
-#endif				
+				if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+					NSLog(@"WMUtil: getIPAddress: ifa_name = %@", [NSString stringWithUTF8String:temp_addr->ifa_name] );
+				}
+				
 				// Check if interface is en0 which is the wifi connection on the iPhone
 				if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"] ||
 				   [[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en1"] )
 				{
 					// Get NSString from C String
 					address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-#ifdef WM_DEBUG
-					NSLog(@"wifi ip = %@", address );
+					if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+						NSLog(@"WMUtil: getIPAddress: IP (via WiFi) = %@", address );
+					}	
 					break;
-#endif					
 				} else if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"pdp_ip0"]) {
 					// Get NSString from C String
 					address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-#ifdef WM_DEBUG
-					NSLog(@"cell ip = %@", address );
+					if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+						NSLog(@"WMUtil: getIPAddress: IP (via WWAN) = %@", address );
+					}
 					break;
-#endif
 				}
 			}
 			
@@ -111,12 +112,14 @@
 	CFRelease(defaultRouteReachability);
 		
 	if (!didRetrieveFlags) {
-		NSLog(@"Error. Could not recover network reachability flags");
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMUtil: connectionType: Could not recover network reachability flags");
+		}
 		return type;
 	}
 	
-#ifdef WM_DEBUG
-	NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c\n",
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMUtil: connectionType: %c%c %c%c%c%c%c%c%c\n",
 		  (flags & kSCNetworkReachabilityFlagsIsWWAN)				? 'W' : '-',
 		  (flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
 		  (flags & kSCNetworkReachabilityFlagsTransientConnection)  ? 't' : '-',
@@ -127,21 +130,27 @@
 		  (flags & kSCNetworkReachabilityFlagsIsLocalAddress)       ? 'l' : '-',
 		  (flags & kSCNetworkReachabilityFlagsIsDirect)             ? 'd' : '-'
 		  );
-#endif
-
+	}
+	
 	BOOL isReachable = ((flags & kSCNetworkFlagsReachable) != 0);
 	BOOL needsConnection = ((flags & kSCNetworkFlagsConnectionRequired) != 0);
 	BOOL isWWAN = (( flags & kSCNetworkReachabilityFlagsIsWWAN ) != 0);
 	
 	if( isReachable && isWWAN && !needsConnection ) {
 		type = @"wwan";
-		NSLog( @"Reachable via WWAN" );
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog( @"WMUtil: connectionType: Reachable via WWAN" );
+		}
 	} else if ( isReachable && !needsConnection ) {
 		type = @"wifi";
-		NSLog( @"Reachable via WiFi" );
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog( @"WMUtil: connectionType: Reachable via WiFi" );
+		}
 	} else if ( needsConnection ) {
 		type = @"other";
-		NSLog( @"Needs connection" );
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog( @"WMUtil: connectionType: Needs connection" );
+		}
 	}
 	
 	return type;

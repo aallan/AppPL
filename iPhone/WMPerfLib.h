@@ -11,7 +11,8 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 
-#define WM_DEBUG 1
+#define WM_VERSION 0.1
+
 #define WM_SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
 \
 static classname *shared##classname = nil; \
@@ -156,6 +157,9 @@ return self; \
 
 @interface WMPerfLib : NSObject {
 
+	BOOL libraryDebug;
+	BOOL libraryOff;
+	
 	NSString *token;
 	WMResponseQueue *queue;
 	
@@ -163,8 +167,11 @@ return self; \
 
 @property (nonatomic, retain) WMResponseQueue *queue;
 @property (nonatomic, retain) NSString *token;
+@property (nonatomic) BOOL libraryDebug;
+@property (nonatomic) BOOL libraryOff;
 
 + (WMPerfLib*) sharedWMPerfLib; 
+- (void) status;
 
 @end
 

@@ -79,6 +79,7 @@
 	 @"mobileCountryCode = %@\n"
 	 @"mobileNetworkCode = %@\n"
 	 @"ipAddress = %@\n"
+	 @"connectionType = %@\n"		
 	 @"initRequest = %f\n"
 	 @"didReceiveResponse = %f\n"
 	 @"didReceiveFirstData = %f\n"
@@ -99,6 +100,7 @@
 	 self.mobileCountryCode,
 	 self.mobileNetworkCode,
 	 self.ipAddress,
+	 self.connectionType,
 	 self.initRequest,
 	 self.didReceiveResponse,
 	 self.didReceiveFirstData,

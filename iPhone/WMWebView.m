@@ -24,7 +24,9 @@
 #pragma mark Delegate Wrappers
 
 - (void)webViewDidStartLoad:(WMWebView *)wv {
-	NSLog(@"Black magic starts");
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMWebView: webViewDidStartLoad:");
+	}
 	
 	analytics.didReceiveResponse = CFAbsoluteTimeGetCurrent(); 
 	
@@ -40,9 +42,10 @@
 
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
 	analytics.bytesReceived = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.outerHTML"] length];
-    NSLog(@"document.body.outerHTML length = %d", analytics.bytesReceived);
-	
-	NSLog(@"Black magic ends");
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMWebView: webViewDiDFinishLoad: didFinishLoading at %f", analytics.didFinishLoading);
+		NSLog(@"WMWebView: webViewDiDFinishLoad: document.body.outerHTML length = %d", analytics.bytesReceived);
+	}	
 	if( [_myDelegate respondsToSelector:@selector(webViewDidStartLoad:)] ) {
 		[_myDelegate webViewDidFinishLoad:wv];
 	} 
@@ -53,15 +56,17 @@
 
 
 - (BOOL)webView:(WMWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-	
-	NSLog(@"Black magic happening");
+
 	BOOL returned = YES;
 	
 	analytics = [[WMResponse alloc] init];
 	analytics.initRequest = CFAbsoluteTimeGetCurrent(); 
 	analytics.url = request.URL;
-	NSLog(@"url = %@", request.URL);
-		
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMWebView: webView:shouldStartLoadWithRequest: URL = %@", request.URL);
+		NSLog(@"WMWebView: webView:shouldStartLoadWithRequest: initRequest at %d", analytics.initRequest);
+	}
+	
 	if ( [_myDelegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
 		returned = [_myDelegate webView:wv shouldStartLoadWithRequest:request navigationType:navigationType];
 	}
@@ -70,8 +75,10 @@
 }
 
 - (void)webView:(WMWebView *)webView didFailLoadWithError:(NSError *)error {
-	
-	NSLog(@"Black magic happened but an error occured");
+
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMWebView: webView:didFailLoadWithError: %@", error);
+	}
 	
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
 	analytics.error = YES;

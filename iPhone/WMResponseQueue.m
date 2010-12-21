@@ -27,14 +27,15 @@
 }
 
 - (void)addResponse:(WMResponse *)response {
-#ifdef WM_DEBUG	
-	NSLog(@"Adding response to queue: %@", response);
-#endif
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		//NSLog(@"WMResponseQueue: addResponse: Adding response to queue: %@", response);
+		NSLog(@"WMResponseQueue: addResponse: Adding response to queue");
+	}
 	[self.queue addObject:response];
 
-#ifdef WM_DEBUG	
-	NSLog(@"Flushing response to acceptor");
-#endif
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMResponseQueue: addResponse: Flushing response to acceptor");
+	}
 	WMResponse *object = [self popResponse];
 	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
 	[dispatch dispatchResponse:object];

@@ -19,7 +19,9 @@
 	analytics.url = request.URL;
 	
 	if( self = [super initWithRequest:request delegate:self] ) {
-		NSLog(@"Starting magic");
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMURLConnection: initWithRequest:delegate: initRequest at %f", analytics.initRequest);
+		}
 		[delegate retain];
 		[_myDelegate release];
 		_myDelegate = delegate;	
@@ -50,13 +52,17 @@
  */
 
 - (NSURLRequest *)connection:(WMURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {
-	NSLog(@"magic 1");
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMURLConnection: connection:willSendRequest:redirectResponse:");
+	}
 	
 	NSURLRequest *returned;
 	if ( [_myDelegate respondsToSelector:@selector(connection:willSendRequest:redirectResponse:)]) {
 		returned = [_myDelegate connection:connection willSendRequest:request redirectResponse:redirectResponse];
 	} else {
-		NSLog(@"Doesn't respond to selector");
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMURLConnection: connection:willSendRequest:redirectResponse: Assigned delegate doesn't respond to selector");
+		}
 		returned = [super connection:connection willSendRequest:request redirectResponse:redirectResponse];
 	}
 	return returned;
@@ -64,39 +70,56 @@
 
 
 - (void)connection:(WMURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	NSLog(@"magic 2");
+
 	analytics.didReceiveResponse = CFAbsoluteTimeGetCurrent(); 
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMURLConnection: connecton:didReceiveResponse: didReceiveResponse at %f", analytics.didReceiveResponse);
+	}
 	
 	if ( [_myDelegate respondsToSelector:@selector(connection:didReceiveResponse:)]) {
 		[_myDelegate connection:connection didReceiveResponse:response];
  
 	} else {
-		NSLog(@"Doesn't respond to selector");		
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMURLConnection: connecton:didReceiveResponse: Assigned delegate doesn't respond to selector");	
+		}
 		[super connection:connection didReceiveResponse:response];
 	}
 	
 }
 
 - (void)connection:(WMURLConnection *)connection didReceiveData:(NSData *)data {
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMURLConnection: connection:didReceiveData:");
+	}
+	
 	if ( firstData ) {
 		analytics.didReceiveFirstData = CFAbsoluteTimeGetCurrent(); 
 		firstData = NO;
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		    NSLog(@"WMURLConnection: connection:didReceiveData: firstData at %f", analytics.didReceiveFirstData);
+		}	
 	} 
 	analytics.bytesReceived = analytics.bytesReceived + [data length];
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMURLConnection: connection:didReceiveData: bytesReceived = %d", analytics.bytesReceived);
+	}	
 	
-	
-	NSLog(@"magic 3");
 	if( [_myDelegate respondsToSelector:@selector(connection:didReceiveData:)] ) {
 		[_myDelegate connection:connection didReceiveData:data];
 	} else {
-		NSLog(@"Doesn't respond to selector");
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMURLConnection: connection:didReceiveData: Assigned delegate doesn't respond to selector");
+		}
 		[super connection:connection didReceiveData:data];
 	}
 	
 }
 
 - (void)connection:(WMURLConnection *)connection didFailWithError:(NSError *)error {
-	NSLog(@"magic failed");
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMURLConnection: connection:didFailWithError: %@", error );
+	}
 	
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
 	analytics.error = YES;
@@ -106,7 +129,9 @@
 	if( [_myDelegate respondsToSelector:@selector(connection:didFailWithError:)] ) {
 		[_myDelegate connection:connection didFailWithError:error];		
 	} else {
-		NSLog(@"Doesn't respond to selector");
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMURLConnection: connection:didFailWithError: Assigned delegate doesn't respond to selector");
+		}
 		[super connection:connection didFailWithError:error];
 	}
 		
@@ -116,13 +141,18 @@
 }
 
 - (void)connectionDidFinishLoading:(WMURLConnection *)connection {
-	NSLog( @"Magic happens");
+
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog( @"WMURLConnection: connection:didFinishLoading: didFinishLoading at %f", analytics.didFinishLoading);
+	}
 		 	
 	if( [_myDelegate respondsToSelector:@selector(connectionDidFinishLoading:)] ) {
 		[_myDelegate connectionDidFinishLoading: connection];	
 	} else {
-		NSLog(@"Doesn't respond to selector");
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMURLConnection: connection:didFinishLoading: Assigned delegate doesn't respond to selector");
+		}
 		[super connectionDidFinishLoading: connection];	
 
 	}
