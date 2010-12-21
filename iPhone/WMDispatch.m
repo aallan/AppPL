@@ -18,10 +18,11 @@
 
 	analytics = response;
 
+	/*
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		//NSLog(@"WMDispatch: dispatchResponse:  Grabbed response object: %@", analytics);
-		NSLog(@"WMDispatch: dispatchResponse:");
+		NSLog(@"WMDispatch: dispatchResponse:  Grabbed response object: %@", analytics);
 	}
+	 */
 	
 /* WatchMouse Acceptor
  
