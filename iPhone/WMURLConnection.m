@@ -17,6 +17,8 @@
 	analytics = [[WMResponse alloc] init];
 	analytics.initRequest = CFAbsoluteTimeGetCurrent(); 
 	analytics.url = request.URL;
+
+	responseData = [[NSMutableData data] retain];
 	
 	if( self = [super initWithRequest:request delegate:self] ) {
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
@@ -301,6 +303,16 @@
 			NSLog(@"WMURLConnection: connection:didFinishLoading: LIBRARY OFF - NO DISPATCH" );
 		}
 	}
+	
+}
+
+#pragma mark -
+#pragma mark Other Methods
+
+-(void)dealloc {
+	
+	[responseData release];
+    [super dealloc];
 	
 }
 
