@@ -36,34 +36,6 @@
 }
 
 
-- (void)webViewDidFinishLoad:(WMWebView *)wv {
-    if (wv.loading)
-		return;
-
-	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
-	analytics.bytesReceived = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.outerHTML"] length];
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMWebView: webViewDiDFinishLoad: didFinishLoading at %f", analytics.didFinishLoading);
-		NSLog(@"WMWebView: webViewDiDFinishLoad: document.body.outerHTML length = %d", analytics.bytesReceived);
-	}	
-	if( [_myDelegate respondsToSelector:@selector(webViewDidStartLoad:)] ) {
-		[_myDelegate webViewDidFinishLoad:wv];
-	} 
-	
-	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
-	if ( !singleton.libraryOff ) {
-		if (singleton.libraryDebug ) {
-			NSLog(@"WMURLConnection: webViewDiDFinishLoad: Adding response to queue" );
-		}
-		[singleton.queue addResponse:analytics];
-	} else {
-		if (singleton.libraryDebug ) {
-			NSLog(@"WMURLConnection: webViewDiDFinishLoad: LIBRARY OFF - NO DISPATCH" );
-		}
-	}
-}
-
-
 - (BOOL)webView:(WMWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 
 	BOOL returned = YES;
@@ -84,9 +56,14 @@
 }
 
 - (void)webView:(WMWebView *)webView didFailLoadWithError:(NSError *)error {
-
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMWebView: webView:didFailLoadWithError: %@", error);
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {		
+		NSDictionary *userInfo = error.userInfo;
+		NSArray *keys = userInfo.allKeys;
+		NSArray *values = userInfo.allValues;		
+		for( int i = 0; i < keys.count; i++ ) {
+			NSLog( @"WMWebView: webView:didFailLoadWithError: %@: %@",
+				  (NSString *) [keys objectAtIndex:i], (NSString *) [values objectAtIndex:i] );
+		} 		
 	}
 	
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
@@ -110,6 +87,34 @@
 		}
 	}
 	
+}
+
+
+- (void)webViewDidFinishLoad:(WMWebView *)wv {
+    if (wv.loading)
+		return;
+	
+	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
+	analytics.bytesReceived = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.outerHTML"] length];
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMWebView: webViewDiDFinishLoad: didFinishLoading at %f", analytics.didFinishLoading);
+		NSLog(@"WMWebView: webViewDiDFinishLoad: document.body.outerHTML length = %d", analytics.bytesReceived);
+	}	
+	if( [_myDelegate respondsToSelector:@selector(webViewDidStartLoad:)] ) {
+		[_myDelegate webViewDidFinishLoad:wv];
+	} 
+	
+	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	if ( !singleton.libraryOff ) {
+		if (singleton.libraryDebug ) {
+			NSLog(@"WMURLConnection: webViewDiDFinishLoad: Adding response to queue" );
+		}
+		[singleton.queue addResponse:analytics];
+	} else {
+		if (singleton.libraryDebug ) {
+			NSLog(@"WMURLConnection: webViewDiDFinishLoad: LIBRARY OFF - NO DISPATCH" );
+		}
+	}
 }
 
 @end

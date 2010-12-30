@@ -184,7 +184,7 @@ return self; \
 	WMResponse *analytics;
 	
 	BOOL firstData;
-	
+	NSMutableData *responseData;	
 }
 
 @end
