@@ -286,7 +286,7 @@
 			NSLog(@"WMURLConnection: connection:didFinishLoading: Assigned delegate doesn't respond to selector");
 			NSString *content = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding];
 			NSLog(@"WMURLConnection: connection:didFinishLoading: content = %@", content);
-			
+			[content release];
 		}
 		//[super connectionDidFinishLoading: connection];	
 
