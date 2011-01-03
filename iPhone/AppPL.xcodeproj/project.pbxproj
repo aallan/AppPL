@@ -18,7 +18,7 @@
 		007E93C512AFC3DD00B1E8CA /* WMWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93B812AFC3DD00B1E8CA /* WMWebView.m */; };
 		007E93C812AFC40A00B1E8CA /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 007E93C712AFC40A00B1E8CA /* CoreTelephony.framework */; };
 		007E93D812AFC43A00B1E8CA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 007E93D712AFC43A00B1E8CA /* UIKit.framework */; };
-		AA747D9F0F9514B9006C5449 /* AppPerfLib_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* AppPerfLib_Prefix.pch */; };
+		AA747D9F0F9514B9006C5449 /* AppPL_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* AppPL_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,9 +34,9 @@
 		007E93B812AFC3DD00B1E8CA /* WMWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMWebView.m; sourceTree = "<group>"; };
 		007E93C712AFC40A00B1E8CA /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		007E93D712AFC43A00B1E8CA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		AA747D9E0F9514B9006C5449 /* AppPerfLib_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPerfLib_Prefix.pch; sourceTree = SOURCE_ROOT; };
+		AA747D9E0F9514B9006C5449 /* AppPL_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPL_Prefix.pch; sourceTree = "<group>"; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D2AAC07E0554694100DB518D /* libAppPerfLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppPerfLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC07E0554694100DB518D /* libAppPL.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppPL.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC07E0554694100DB518D /* libAppPerfLib.a */,
+				D2AAC07E0554694100DB518D /* libAppPL.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,7 +110,7 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				AA747D9E0F9514B9006C5449 /* AppPerfLib_Prefix.pch */,
+				AA747D9E0F9514B9006C5449 /* AppPL_Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -122,7 +122,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA747D9F0F9514B9006C5449 /* AppPerfLib_Prefix.pch in Headers */,
+				AA747D9F0F9514B9006C5449 /* AppPL_Prefix.pch in Headers */,
 				007E93B912AFC3DD00B1E8CA /* WMPerfLib.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,9 +130,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D2AAC07D0554694100DB518D /* AppPerfLib */ = {
+		D2AAC07D0554694100DB518D /* AppPL */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "AppPerfLib" */;
+			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "AppPL" */;
 			buildPhases = (
 				D2AAC07A0554694100DB518D /* Headers */,
 				D2AAC07B0554694100DB518D /* Sources */,
@@ -143,9 +143,9 @@
 			);
 			dependencies = (
 			);
-			name = AppPerfLib;
+			name = AppPL;
 			productName = AppPerfLib;
-			productReference = D2AAC07E0554694100DB518D /* libAppPerfLib.a */;
+			productReference = D2AAC07E0554694100DB518D /* libAppPL.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -153,7 +153,7 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AppPerfLib" */;
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AppPL" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -168,7 +168,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2AAC07D0554694100DB518D /* AppPerfLib */,
+				D2AAC07D0554694100DB518D /* AppPL */,
 			);
 		};
 /* End PBXProject section */
@@ -219,9 +219,9 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = AppPerfLib_Prefix.pch;
+				GCC_PREFIX_HEADER = AppPL_Prefix.pch;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = AppPerfLib;
+				PRODUCT_NAME = AppPL;
 			};
 			name = Debug;
 		};
@@ -233,9 +233,9 @@
 				DSTROOT = /tmp/AppPerfLib.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = AppPerfLib_Prefix.pch;
+				GCC_PREFIX_HEADER = AppPL_Prefix.pch;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = AppPerfLib;
+				PRODUCT_NAME = AppPL;
 			};
 			name = Release;
 		};
@@ -272,7 +272,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "AppPerfLib" */ = {
+		1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "AppPL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB921F08733DC00010E9CD /* Debug */,
@@ -281,7 +281,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AppPerfLib" */ = {
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AppPL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB922308733DC00010E9CD /* Debug */,
