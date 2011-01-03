@@ -13,6 +13,17 @@
 
 #define WM_VERSION 0.1
 
+// SYNTHESIZE_SINGLETON_FOR_CLASS
+// Created by Matt Gallagher.
+// http://cocoawithlove.com/2008/11/singletons-appdelegates-and-top-level.html
+// Copyright 2008 Matt Gallagher. All rights reserved.
+//
+// Permission is given to use this source code file, free of charge, in any 
+// project, commercial or otherwise, entirely at your risk, with the condition 
+// that any redistribution (in part or whole) of source code must retain this 
+// copyright and permission notice. Attribution in compiled projects is 
+// appreciated but not required.
+
 #define WM_SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
 \
 static classname *shared##classname = nil; \
