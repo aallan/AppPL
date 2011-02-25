@@ -16,6 +16,7 @@
 
 - (void)dispatchResponse:(WMResponseQueue *)responseQueue {
 
+	responseData = [[NSMutableData data] retain];
 	WMResponse *response = [responseQueue popResponse];
    
 	// the URL
@@ -108,10 +109,13 @@
 	NSData *requestData = [NSData dataWithBytes:[json UTF8String] length:[json length]];
 				  
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:theURL];
-	[request setHTTPMethod:@"POST"];
-	[request setHTTPBody:requestData];
-	[request setValue:@"application/jsonrequest" forHTTPHeaderField:@"content-type"];
 
+	[request setHTTPMethod: @"POST"];
+	[request setValue:[NSString stringWithFormat:@"%d", [requestData length]] forHTTPHeaderField:@"Content-Length"];
+	[request setValue:@"*/*" forHTTPHeaderField:@"Accept"];
+	[request setValue:@"application/jsonrequest" forHTTPHeaderField:@"Content-Type"];
+	[request setHTTPBody: requestData];
+	
 	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];    
 	
 }
@@ -158,10 +162,10 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-
-	[connection release];
- 	NSString *content = [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease];
-	[responseData release];
+	
+	NSLog(@"length of content = %d", [responseData length]);
+	
+ 	NSString *content = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 		
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMDispatch: connectionDidFinishLoading: Done");

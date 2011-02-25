@@ -32,7 +32,7 @@
 	analytics.url = request.URL;
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMWebView: webView:shouldStartLoadWithRequest: URL = %@", request.URL);
-		NSLog(@"WMWebView: webView:shouldStartLoadWithRequest: initRequest at %d", analytics.initRequest);
+		NSLog(@"WMWebView: webView:shouldStartLoadWithRequest: initRequest at %f", analytics.initRequest);
 	}
 	
 	if ( [_myDelegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
