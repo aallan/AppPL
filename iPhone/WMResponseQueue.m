@@ -36,9 +36,8 @@
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMResponseQueue: addResponse: Flushing response to acceptor");
 	}
-	WMResponse *object = [self popResponse];
 	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
-	[dispatch dispatchResponse:object];
+	[dispatch dispatchResponse:self];
 }
 
 - (void)removeResponse:(WMResponse *)response {

@@ -156,5 +156,48 @@
 	return type;
 }
 
++(NSString *)stringFromDate:(NSDate *)theDate {
+    
+	// Returns ISO8601 formatted string for a passed NSDate
+	static NSDateFormatter* formatter = nil;
+	
+    if (!formatter) {
+        formatter = [[NSDateFormatter alloc] init];
+		
+        NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+        int offset = [timeZone secondsFromGMT];
+		
+        NSMutableString *strFormat = [NSMutableString stringWithString:@"yyyy-MM-dd'T'HH:mm:ss"];
+        offset /= 60; //bring down to minutes
+        if (offset == 0)
+            [strFormat appendString:ISO_TIMEZONE_UTC_FORMAT];
+        else
+            [strFormat appendFormat:ISO_TIMEZONE_OFFSET_FORMAT, offset / 60, offset % 60];
+		
+        [formatter setTimeStyle:NSDateFormatterFullStyle];
+        [formatter setDateFormat:strFormat];
+    }
+    return[formatter stringFromDate:theDate];
+}
+
++(NSDate *)dateFromString:(NSString *)theString {
+    static NSDateFormatter* sISO8601 = nil;
+
+	// Turn ISO8601 formatted string into an NSDate
+	
+    if (!sISO8601) {
+        sISO8601 = [[NSDateFormatter alloc] init];
+        [sISO8601 setTimeStyle:NSDateFormatterFullStyle];
+        [sISO8601 setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    }
+    if ([theString hasSuffix:@"Z"]) {
+        theString = [theString substringToIndex:(theString.length-1)];
+    }
+	
+    NSDate *d = [sISO8601 dateFromString:theString];
+    return d;
+	
+}
+
 
 @end

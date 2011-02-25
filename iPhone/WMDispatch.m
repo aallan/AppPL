@@ -7,79 +7,125 @@
 //
 
 #import "WMPerfLib.h"
-
+ 
 
 @implementation WMDispatch
 
 #pragma mark -
 #pragma mark Dispatch Method
 
-- (void)dispatchResponse:(WMResponse *)response {
+- (void)dispatchResponse:(WMResponseQueue *)responseQueue {
 
-	analytics = response;
-
-	/*
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMDispatch: dispatchResponse:  Grabbed response object: %@", analytics);
-	}
-	 */
+	WMResponse *response = [responseQueue popResponse];
+   
+	// the URL
 	
-/* WatchMouse Acceptor
- 
-http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&pa=%2Fapicall.php&qs=query_string&ct=wifi&cn=myiphoneapp&cv=1.0&td=320&ds=2345
-
- X pr = protocol
- X ho = host
- X po = port
- X pa = path (urlencoded)
- X qs = query string (urlencoded)
- X ct = connection type (wifi or wan)
- X cn = application name
- X cv = application version
- X td = total time of operation (in msec)
- X ds = document size in bytes
-
- */
-	NSString *pr = [analytics.url.scheme stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	NSString *ho = [analytics.url.host stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	NSString *po = [[analytics.url.port stringValue] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	NSString *pa = [analytics.url.path stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	NSString *qs = [analytics.url.query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	NSString *ct = [analytics.connectionType stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	NSString *cn = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
-	NSString *cv = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-	int td = [[[NSString stringWithFormat:@"%f", 1000.0f*(analytics.didFinishLoading - analytics.initRequest)] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] intValue];
-	NSString *ds = [[NSString stringWithFormat:@"%d", analytics.bytesReceived] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-
-	/*
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMDispatch: dispatchResponse: pr = %@, ho = %@, po = %@, pa = %@, qs = %@, ct = %@, cn = %@, cv = %@, td = %d, ds = %@", pr, ho, po, pa, qs, ct, cn, cv, td, ds );
-	}
-	 */
-	
-	NSString *url = [NSString stringWithFormat:@"http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=%@&ho=%@&po=%@&pa=%@&qs=%@&ct=%@&cn=%@&cv=%@&td=%d&ds=%@", pr, ho, po, pa, qs, ct, cn, cv, td, ds];
+    NSString *url = @"http://rum-alpha.io.watchmouse.com/in/mobile/0.1/6/";
 	theURL = [[NSURL URLWithString:url] retain];
-	
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMDispatch: dispatchResponse: theURL = %@", theURL );
 	}	
 	
-	NSURLRequest *request = [NSURLRequest requestWithURL:theURL];
-	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];    
+	/*  the JSON
+	
+	{"app": "HelloWorld",
+		"appversion": "1.3",
+		"key": "aghudHZndWlkZXIMCxIGTmdDaXR5GAUM",
+		"batched": true,
+		"device": "Al's phone", 
+		"os_version": "iOS 4.4", 
+		"model": "iPhone 4",
+		"measurements": 
+		[{"result": 0, 
+			"error": "", 
+			"when": "2011-02-17T11:07:01Z", 
+			"url": "http:\/\/api.watchmouse.com\/1.6\/cp_list?callback=x", 
+			"mcc": "310", 
+			"mnc": "012", 
+			"c_type": "3G", 
+			"t_connect": 500, 
+			"t_firstbyte": 3000, 
+			"t_done": 5000, 
+			"size": 10567}, 
+		 {"result": 0, 
+			 "error": "", 
+			 "when": "2011-02-17T11:09:12Z", 
+			 "url": "http:\/\/api.watchmouse.com\/1.6\/info_ip?callback=y", 
+			 "c_type": "wwan", 
+			 "ipaddr": "80.126.145.170",
+			 "t_connect": 200, 
+			 "t_firstbyte": 1000, 
+			 "t_done": 2000, 
+			 "size": 389}], 
+		"hash": null
+	}
+	*/
+	
+	NSNumber *result = [NSNumber numberWithInt:0];
+	if ( response.errorCode ) {
+		result = [NSNumber numberWithInt:response.errorCode];
+	}
+	NSString *error = @"";
+	if ( response.errorString != nil ) {
+		error = [response.errorString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	}
+	
+	if ( response.mobileCountryCode == nil ) {
+		response.mobileCountryCode = @"XXX";
+	}
+	if ( response.mobileNetworkCode == nil ) {
+		response.mobileNetworkCode = @"XXX";
+	}
+	
+	int t_connect = (int)(1000.0f*(response.didReceiveResponse - response.initRequest));
+	int t_firstbyte = (int)(1000.0f*(response.didReceiveFirstData - response.initRequest));
+	int t_done = (int)(1000.0f*(response.didFinishLoading - response.initRequest));
+	
+	NSString *json = [NSString stringWithFormat:@"{\"app\": \"%@\",\"appversion\": \"%@\", \"key\": \"%@\", \"batched\": false, \"device\": \"%@\", \"os_version\": \"%@\", \"model\": \"%@\", \"measurements\": [ { \"result\": %@, \"error\": \"%@\", \"when\": \"%@\", \"url\": \"%@\", \"mcc\": \"%@\", \"mnc\": \"%@\", \"c_type\": \"%@\", \"t_connect\": %d, \"t_firstbyte\": %d, \"t_done\": %d, \"size\": %d  }], \"hash\": \"%@\" }",
+		[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"],
+		[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+		@"aghudHZndWlkZXIMCxIGTmdDaXR5GAUM",
+		[response.name stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+		[response.systemVersion stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+		[response.model stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+		result,
+		error,
+		[response.when stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+		[[response.url absoluteString] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+		[response.mobileCountryCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+		[response.mobileNetworkCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+		[response.connectionType stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+		t_connect,
+		t_firstbyte,
+		t_done,
+		(int)response.bytesReceived,
+		@""
+		];
+	
+	[result release];
+	
+	NSLog(@"json = %@", json );
+	NSData *requestData = [NSData dataWithBytes:[json UTF8String] length:[json length]];
+				  
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:theURL];
+	[request setHTTPMethod:@"POST"];
+	[request setHTTPBody:requestData];
+	[request setValue:@"application/jsonrequest" forHTTPHeaderField:@"content-type"];
 
+	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];    
 	
 }
 
 #pragma mark -
 #pragma mark NSURLConnection Delegate Methods
 
-- (NSURLRequest *)connection:(WMURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {
 	[theURL autorelease];
 	theURL = [[request URL] retain];
 	return request;
 }
 
-- (void)connection:(WMURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	[responseData setLength:0];
 	
 	if ([response respondsToSelector:@selector(statusCode)]) {
@@ -97,11 +143,11 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 	
 }
 
-- (void)connection:(WMURLConnection *)connection didReceiveData:(NSData *)data {
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 	[responseData appendData:data];
 }
 
-- (void)connection:(WMURLConnection *)connection didFailWithError:(NSError *)error {	
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {	
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMDispatch: connection:didFailWithError: %@", error);
 	}
@@ -111,20 +157,21 @@ http://alpha.rum.watchmouse.com/in/mobile/0.1/6/?pr=http&ho=myhost.com&po=8080&p
 	//[singleton.queue addResponse:analytics];
 }
 
-- (void)connectionDidFinishLoading:(WMURLConnection *)connection {
-	
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+
+	[connection release];
+ 	NSString *content = [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease];
+	[responseData release];
+		
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMDispatch: connectionDidFinishLoading: Done");
-		NSString *content = [[[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding] autorelease];
 		NSLog(@"WMDispatch: connectionDidFinishLoading: content = '%@'", content );
 	}
 }
 
 - (void)dealloc {
     [super dealloc];
-//	[analytics release];
-//	[responseData release];
-//	[theURL release];
+
 }
 
 

@@ -23,21 +23,8 @@
 #pragma mark -
 #pragma mark Delegate Wrappers
 
-- (void)webViewDidStartLoad:(WMWebView *)wv {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMWebView: webViewDidStartLoad:");
-	}
-	
-	analytics.didReceiveResponse = CFAbsoluteTimeGetCurrent(); 
-	
-	if( [_myDelegate respondsToSelector:@selector(webViewDidStartLoad:)] ) {
-		[_myDelegate webViewDidStartLoad:wv];
-	} 
-}
-
-
 - (BOOL)webView:(WMWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-
+	
 	BOOL returned = YES;
 	
 	analytics = [[WMResponse alloc] init];
@@ -52,8 +39,21 @@
 		returned = [_myDelegate webView:wv shouldStartLoadWithRequest:request navigationType:navigationType];
 	}
 	return returned;
-
+	
 }
+
+- (void)webViewDidStartLoad:(WMWebView *)wv {
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMWebView: webViewDidStartLoad:");
+	}
+	
+	analytics.didReceiveResponse = CFAbsoluteTimeGetCurrent(); 
+	
+	if( [_myDelegate respondsToSelector:@selector(webViewDidStartLoad:)] ) {
+		[_myDelegate webViewDidStartLoad:wv];
+	} 
+}
+
 
 - (void)webView:(WMWebView *)webView didFailLoadWithError:(NSError *)error {
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {		

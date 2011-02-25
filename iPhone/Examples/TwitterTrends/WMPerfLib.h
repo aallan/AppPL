@@ -12,17 +12,8 @@
 #include <arpa/inet.h>
 
 #define WM_VERSION 0.1
-
-// SYNTHESIZE_SINGLETON_FOR_CLASS
-// Created by Matt Gallagher.
-// http://cocoawithlove.com/2008/11/singletons-appdelegates-and-top-level.html
-// Copyright 2008 Matt Gallagher. All rights reserved.
-//
-// Permission is given to use this source code file, free of charge, in any 
-// project, commercial or otherwise, entirely at your risk, with the condition 
-// that any redistribution (in part or whole) of source code must retain this 
-// copyright and permission notice. Attribution in compiled projects is 
-// appreciated but not required.
+#define ISO_TIMEZONE_UTC_FORMAT @"Z"
+#define ISO_TIMEZONE_OFFSET_FORMAT @"%+02d%02d"
 
 #define WM_SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
 \
@@ -101,6 +92,7 @@ return self; \
 	NSString *ipAddress;
 	NSString *connectionType;
 	
+	NSString *when;
 	CFTimeInterval initRequest;
 	CFTimeInterval didReceiveResponse;
 	CFTimeInterval didReceiveFirstData;
@@ -130,6 +122,7 @@ return self; \
 @property (nonatomic, retain) NSString *ipAddress;
 @property (nonatomic, retain) NSString *connectionType;
 
+@property (nonatomic, retain) NSString *when;
 @property (nonatomic) CFTimeInterval initRequest;
 @property (nonatomic) CFTimeInterval didReceiveResponse;
 @property (nonatomic) CFTimeInterval didReceiveFirstData;
@@ -227,6 +220,8 @@ return self; \
 + (NSString *)base64forData:(NSData*)theData;
 + (NSString *)getIPAddress;
 + (NSString *)connectionType;
++ (NSString *)stringFromDate:(NSDate *)theDate;
++ (NSDate *)dateFromString:(NSString *)theString;
 
 @end
 
@@ -247,7 +242,7 @@ return self; \
 	
 }
 
-- (void)dispatchResponse:(WMResponse *)response;
+- (void)dispatchResponse:(WMResponseQueue *)responseQueue;
 
 @end
 

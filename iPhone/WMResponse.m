@@ -27,6 +27,7 @@
 @synthesize ipAddress;
 @synthesize connectionType;
 
+@synthesize when;
 @synthesize initRequest;
 @synthesize didReceiveResponse;
 @synthesize didReceiveFirstData;
@@ -59,6 +60,8 @@
 
 		self.ipAddress = [WMUtil getIPAddress];
 		self.connectionType = [WMUtil connectionType];
+		
+		self.when = [WMUtil stringFromDate:[NSDate date]];
 	}
 	return self;
 }

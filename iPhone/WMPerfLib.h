@@ -12,6 +12,8 @@
 #include <arpa/inet.h>
 
 #define WM_VERSION 0.1
+#define ISO_TIMEZONE_UTC_FORMAT @"Z"
+#define ISO_TIMEZONE_OFFSET_FORMAT @"%+02d%02d"
 
 #define WM_SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
 \
@@ -90,6 +92,7 @@ return self; \
 	NSString *ipAddress;
 	NSString *connectionType;
 	
+	NSString *when;
 	CFTimeInterval initRequest;
 	CFTimeInterval didReceiveResponse;
 	CFTimeInterval didReceiveFirstData;
@@ -119,6 +122,7 @@ return self; \
 @property (nonatomic, retain) NSString *ipAddress;
 @property (nonatomic, retain) NSString *connectionType;
 
+@property (nonatomic, retain) NSString *when;
 @property (nonatomic) CFTimeInterval initRequest;
 @property (nonatomic) CFTimeInterval didReceiveResponse;
 @property (nonatomic) CFTimeInterval didReceiveFirstData;
@@ -216,6 +220,8 @@ return self; \
 + (NSString *)base64forData:(NSData*)theData;
 + (NSString *)getIPAddress;
 + (NSString *)connectionType;
++ (NSString *)stringFromDate:(NSDate *)theDate;
++ (NSDate *)dateFromString:(NSString *)theString;
 
 @end
 
@@ -236,7 +242,7 @@ return self; \
 	
 }
 
-- (void)dispatchResponse:(WMResponse *)response;
+- (void)dispatchResponse:(WMResponseQueue *)responseQueue;
 
 @end
 
