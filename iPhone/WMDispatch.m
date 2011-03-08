@@ -49,9 +49,7 @@
 }
 
 - (void)dispatchResponseQueue:(WMResponseQueue *)responseQueue {
-	
-	WMResponse *response;
-	
+		
 	/*  the JSON
 	 
 	 {"app": "HelloWorld",
@@ -90,9 +88,26 @@
 	 */
 	
 	NSString *jsonResults = @"";
+	
+	NSString *batched;
+	if ( [responseQueue sizeOfQueue] > 1 ) {
+		batched = @"true";
+	} else {
+		batched = @"false";
+	}
+	
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMDispatch: dispatchResponseQueue: Items in queue = %d", [responseQueue sizeOfQueue] );
+	}	
+	
 	while ( [responseQueue sizeOfQueue] > 0 ) {
 		
-		response = [responseQueue popResponse];
+		WMResponse *response = [responseQueue popResponse];
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMDispatch: dispatchResponseQueue: Popped response from queue." );
+		}
+		
+		
 		NSNumber *result = [NSNumber numberWithInt:0];
 		if ( response.errorCode ) {
 			result = [NSNumber numberWithInt:response.errorCode];
@@ -125,15 +140,22 @@
 					  t_firstbyte,
 					  t_done,
 					  (int)response.bytesReceived];
-					  
-		[jsonResults stringByAppendingString:thisResult];		
+		
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMDispatch: dispatchResponseQueue: thisResult = %@", thisResult );
+		}		
+		jsonResults = [jsonResults stringByAppendingString:thisResult];
+		if ( [responseQueue sizeOfQueue] > 0 ) {
+			jsonResults = [jsonResults stringByAppendingString:@", "];
+		}
 	}	
 		
 		
-	NSString *json = [NSString stringWithFormat:@"{\"app\": \"%@\",\"appversion\": \"%@\", \"key\": \"%@\", \"batched\": false, \"device\": \"%@\", \"os_version\": \"%@\", \"model\": \"%@\", \"measurements\": [ %@ ], \"hash\": \"%@\" }",
+	NSString *json = [NSString stringWithFormat:@"{\"app\": \"%@\",\"appversion\": \"%@\", \"key\": \"%@\", \"batched\": %@, \"device\": \"%@\", \"os_version\": \"%@\", \"model\": \"%@\", \"measurements\": [ %@ ], \"hash\": \"%@\" }",
 					  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"],
 					  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
 					  [[WMPerfLib sharedWMPerfLib] token],
+					  batched,
 					  [[UIDevice currentDevice].name stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 					  [[UIDevice currentDevice].systemVersion stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 					  [[UIDevice currentDevice].model stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
@@ -142,8 +164,8 @@
 					  ];
 
 	
-	NSLog(@"json = %@", json );
-	  
+	NSLog(@"WMDispatch: dispatchResponseQueue: json = %@", json );
+	[self dispatchResponse:json];  
 	
 }
 
@@ -190,14 +212,12 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	
-	NSLog(@"length of content = %d", [responseData length]);
-	
+		
  	NSString *content = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 		
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMDispatch: connectionDidFinishLoading: content[%d] = '%@'", [responseData length], content );
 		NSLog(@"WMDispatch: connectionDidFinishLoading: Done");
-		NSLog(@"WMDispatch: connectionDidFinishLoading: content = '%@'", content );
 	}
 }
 
