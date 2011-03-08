@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WMPerfLib.h"
 
-@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, WMPerfLibDelegate> {
 	UITableView *serviceView;
 	NSMutableArray *names;
 	NSMutableArray *urls;

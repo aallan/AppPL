@@ -6,6 +6,20 @@
 //  Copyright 2010 Babilim Light Industries. All rights reserved.
 //
 
+/* 
+ 
+ TO DO: Version 1 (still outstanding as of 8/Mar/11)
+ 
+ * Implement serialisation of queue on applicaiton quit/suspend
+ * Documentation
+	- Sample applications
+	- How-to install AppPL in your application
+	- How-to configure AppPL for your application
+	- How-to expose ON/OFF to user in preference bundle of your app
+	- Screencast
+ 
+ */
+
 #import <Foundation/Foundation.h>
 
 #include <ifaddrs.h>
@@ -161,6 +175,14 @@ return self; \
 #pragma mark -
 #pragma mark WMPerfLib
 
+@protocol WMPerfLibDelegate <NSObject>
+
+@optional
+- (void)flushedResponseQueue;
+
+@end
+
+
 @interface WMPerfLib : NSObject {
 
 	BOOL libraryDebug;
@@ -179,6 +201,9 @@ return self; \
 @property (nonatomic) BOOL waitForWiFi;
 
 + (WMPerfLib*) sharedWMPerfLib; 
++ (id) delegate;	
++ (void) setDelegate:(id)newDelegate;
+
 - (void) status;
 
 @end
@@ -236,7 +261,6 @@ return self; \
 
 #pragma mark -
 #pragma mark WMDispatch
-
 
 @interface WMDispatch : NSObject {
 

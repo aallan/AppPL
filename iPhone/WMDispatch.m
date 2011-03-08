@@ -109,6 +109,7 @@
 		NSLog(@"WMDispatch: dispatchResponseQueue: Items in queue = %d", [responseQueue sizeOfQueue] );
 	}	
 	
+	// TO DO: Limit to ~< 1MB max size, batch in chunks of 100 responses?
 	while ( [responseQueue sizeOfQueue] > 0 ) {
 		
 		WMResponse *response = [responseQueue popResponse];
@@ -242,10 +243,20 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 		
  	NSString *content = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-		
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMDispatch: connectionDidFinishLoading: content[%d] = '%@'", [responseData length], content );
 		NSLog(@"WMDispatch: connectionDidFinishLoading: Done");
+	}
+
+	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushedResponseQueue)]) {	
+		[[WMPerfLib delegate] flushedResponseQueue];
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMDispatch: connectionDidFinishLoading: Called flushedResponseQueue delegate method.");
+		}
+	} else {
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMDispatch: connectionDidFinishLoading: No response to flushedResponseQueue method in delegate.");
+		}		
 	}
 }
 

@@ -24,6 +24,7 @@
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	TwitterTrends *trends = [[TwitterTrends alloc] init];
 	[trends queryServiceWithParent:self];
+	[WMPerfLib setDelegate:self];
 	
     [super viewDidLoad];
 }
@@ -67,6 +68,11 @@
 	
 	[tv deselectRowAtIndexPath:indexPath animated:YES];
 	
+}
+
+-(void)flushedResponseQueue {
+	
+	NSLog(@"GOT DELEGATE CALL FROM WMPERFLIB");
 }
 
 @end

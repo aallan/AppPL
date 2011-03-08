@@ -10,6 +10,8 @@
 
 @implementation WMPerfLib
 
+static __weak id<WMPerfLibDelegate> _delegate;
+
 @synthesize libraryDebug;
 @synthesize libraryOff;
 @synthesize waitForWiFi;
@@ -44,6 +46,16 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
 		NSLog( @"  debug = %d, on = %d", self.libraryDebug, !self.libraryOff );
 	}
 	
+}
+
++ (id)delegate {
+	
+    return _delegate;
+}
+
++ (void)setDelegate:(id)newDelegate {
+	
+    _delegate = newDelegate;	
 }
 
 @end
