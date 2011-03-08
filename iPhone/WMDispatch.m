@@ -58,43 +58,6 @@
 }
 
 - (void)dispatchResponseQueue:(WMResponseQueue *)responseQueue {
-		
-	/*  the JSON
-	 
-	 {"app": "HelloWorld",
-	 "appversion": "1.3",
-	 "key": "aghudHZndWlkZXIMCxIGTmdDaXR5GAUM",
-	 "batched": true,
-	 "device": "Al's phone", 
-	 "os_version": "iOS 4.4", 
-	 "model": "iPhone 4",
-	 "measurements": 
-	 
-	 [{"result": 0, 
-	 "error": "", 
-	 "when": "2011-02-17T11:07:01Z", 
-	 "url": "http:\/\/api.watchmouse.com\/1.6\/cp_list?callback=x", 
-	 "mcc": "310", 
-	 "mnc": "012", 
-	 "c_type": "3G", 
-	 "t_connect": 500, 
-	 "t_firstbyte": 3000, 
-	 "t_done": 5000, 
-	 "size": 10567}, 
-	 {"result": 0, 
-	 "error": "", 
-	 "when": "2011-02-17T11:09:12Z", 
-	 "url": "http:\/\/api.watchmouse.com\/1.6\/info_ip?callback=y", 
-	 "c_type": "wwan", 
-	 "ipaddr": "80.126.145.170",
-	 "t_connect": 200, 
-	 "t_firstbyte": 1000, 
-	 "t_done": 2000, 
-	 "size": 389}],
-	 
-	 "hash": null
-	 }
-	 */
 	
 	NSString *jsonResults = @"";
 	
@@ -128,10 +91,10 @@
 		}
 		
 		if ( response.mobileCountryCode == nil ) {
-			response.mobileCountryCode = @"XXX";
+			response.mobileCountryCode = @"null";
 		}
 		if ( response.mobileNetworkCode == nil ) {
-			response.mobileNetworkCode = @"XXX";
+			response.mobileNetworkCode = @"null";
 		}
 		
 		int t_connect = (int)(1000.0f*(response.didReceiveResponse - response.initRequest));
@@ -259,14 +222,14 @@
 		NSLog(@"WMDispatch: connectionDidFinishLoading: Done");
 	}
 
-	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushedResponseQueue)]) {	
-		[[WMPerfLib delegate] flushedResponseQueue];
+	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushedResponseQueue:)]) {	
+		[[WMPerfLib delegate] flushedResponseQueue:content];
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: connectionDidFinishLoading: Called flushedResponseQueue delegate method.");
+			NSLog(@"WMDispatch: connectionDidFinishLoading: Called flushedResponseQueue: delegate method.");
 		}
 	} else {
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: connectionDidFinishLoading: No response to flushedResponseQueue method in delegate.");
+			NSLog(@"WMDispatch: connectionDidFinishLoading: No response to flushedResponseQueue: method in delegate.");
 		}		
 	}
 }

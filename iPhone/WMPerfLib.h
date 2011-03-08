@@ -178,7 +178,7 @@ return self; \
 @protocol WMPerfLibDelegate <NSObject>
 
 @optional
-- (void)flushedResponseQueue;
+- (void)flushedResponseQueue:(NSString *)jsonString;
 - (void)flushFailedWithError:(NSError *)error;
 
 @end
