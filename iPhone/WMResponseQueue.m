@@ -151,6 +151,7 @@
 	}
 													  
 /*
+ http://www.techotopia.com/index.php/An_Example_SQLite_based_iOS_4_iPhone_Application
  
  const char *dbpath = [databasePath UTF8String];
  
