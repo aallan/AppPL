@@ -43,7 +43,9 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
 	
 	if ( self.libraryDebug ) {
 		NSLog( @"WMPerfLib Version %f", WM_VERSION );
-		NSLog( @"  debug = %d, on = %d", self.libraryDebug, !self.libraryOff );
+		NSLog( @"  debug = %d, on = %d, wait = %d", 
+			      self.libraryDebug, !self.libraryOff, self.waitForWiFi );
+		NSLog( @"  developer token = %@", self.token );
 	}
 	
 }

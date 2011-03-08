@@ -168,6 +168,7 @@ return self; \
 - (WMResponse *)popResponse;
 - (int)sizeOfQueue;
 - (void)flushQueue;
+- (void)saveQueue;
 
 @end
 

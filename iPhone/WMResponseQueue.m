@@ -17,6 +17,11 @@
 	
 	if( self = [super init] ) {
 		queue = [[NSMutableArray alloc] init];
+		
+		// check for saved state in database
+		
+		// grab it if it exists
+		
 	}
 	return self;
 }
@@ -78,15 +83,6 @@
 		
 }
 
-- (void)flushQueue {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMResponseQueue: flushQueue: Flushing response queue to acceptor");
-	}
-	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
-	[dispatch dispatchResponseQueue:self];	
-	
-}
-
 - (void)removeResponse:(WMResponse *)response {
 	[self.queue removeObject:response];
 }
@@ -104,6 +100,30 @@
 
 - (int)sizeOfQueue {
 	return [self.queue count];
+	
+}
+
+- (void)flushQueue {
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMResponseQueue: flushQueue: Flushing response queue to acceptor");
+	}
+	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
+	[dispatch dispatchResponseQueue:self];	
+	
+}
+
+- (void)saveQueue {
+	
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMResponseQueue: saveQueue: Saving queue to database.");
+	}
+													  
+	// Check database exists
+	
+	// Create it if not
+	
+	// Update it if so
+	
 	
 }
 
