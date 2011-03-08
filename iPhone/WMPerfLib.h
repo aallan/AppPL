@@ -21,10 +21,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <sqlite3.h>
 
 #include <ifaddrs.h>
 #include <arpa/inet.h>
+#include <sqlite3.h>
 
 
 #define WM_VERSION 0.9
