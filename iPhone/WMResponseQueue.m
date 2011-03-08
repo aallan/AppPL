@@ -18,9 +18,41 @@
 	if( self = [super init] ) {
 		queue = [[NSMutableArray alloc] init];
 		
-		// check for saved state in database
+		// check for saved state in database, 
+		// create database if it doesn't exist
 		
-		// grab it if it exists
+		// Check database exists
+		NSArray *directoryPaths = 
+		NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+		NSString *documentDirectory = [directoryPaths objectAtIndex:0];
+		
+		// Build the path to the database file
+		databasePath = [[NSString alloc] initWithString: [documentDirectory stringByAppendingPathComponent: @"queue.db"]];
+		
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		if ([fileManager fileExistsAtPath: databasePath ] == NO) {
+			const char *dbpath = [databasePath UTF8String];
+			
+			if (sqlite3_open(dbpath, &queueDB) == SQLITE_OK) {
+				char *errMsg;
+				const char *sql_stmt = "CREATE TABLE IF NOT EXISTS QUEUE (ID INTEGER PRIMARY KEY AUTOINCREMENT, ENTRY TEXT)";
+				
+				if (sqlite3_exec(queueDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK) {
+					if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+						NSLog(@"WMResponseQueue: init: Failed to create queue.db table.");
+					}
+				}
+				sqlite3_close(queueDB);
+				
+			} else {
+				if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+					NSLog(@"WMResponseQueue: init: Failed to open/create queue.db");
+				}
+			}
+		}
+		[fileManager release];
+		
+		// Grab contents of database
 		
 	}
 	return self;
@@ -118,12 +150,30 @@
 		NSLog(@"WMResponseQueue: saveQueue: Saving queue to database.");
 	}
 													  
-	// Check database exists
-	
-	// Create it if not
-	
-	// Update it if so
-	
+/*
+ 
+ const char *dbpath = [databasePath UTF8String];
+ 
+ if (sqlite3_open(dbpath, &contactDB) == SQLITE_OK)
+ {
+ NSString *insertSQL = [NSString stringWithFormat: @"INSERT INTO CONTACTS (name, address, phone) VALUES (\"%@\", \"%@\", \"%@\")", name.text, address.text, phone.text];
+ 
+ const char *insert_stmt = [insertSQL UTF8String];
+ 
+ sqlite3_prepare_v2(contactDB, insert_stmt, -1, &statement, NULL);
+ if (sqlite3_step(statement) == SQLITE_DONE)
+ {
+ status.text = @"Contact added";
+ name.text = @"";
+ address.text = @"";
+ phone.text = @"";
+ } else {
+ status.text = @"Failed to add contact";
+ }
+ sqlite3_finalize(statement);
+ sqlite3_close(contactDB);
+ }
+ */
 	
 }
 

@@ -21,9 +21,11 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <sqlite3.h>
 
 #include <ifaddrs.h>
 #include <arpa/inet.h>
+
 
 #define WM_VERSION 0.9
 #define ISO_TIMEZONE_UTC_FORMAT @"Z"
@@ -158,6 +160,9 @@ return self; \
 @interface WMResponseQueue : NSObject {
 	
 	NSMutableArray *queue;
+	
+	NSString *databasePath;
+	sqlite3 *queueDB;
 	
 }
 
