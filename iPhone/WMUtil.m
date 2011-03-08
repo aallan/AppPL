@@ -133,20 +133,20 @@
 	}
 	
 	BOOL isReachable = ((flags & kSCNetworkFlagsReachable) != 0);
-	BOOL needsConnection = ((flags & kSCNetworkFlagsConnectionRequired) != 0);
+	//BOOL needsConnection = ((flags & kSCNetworkFlagsConnectionRequired) != 0);
 	BOOL isWWAN = (( flags & kSCNetworkReachabilityFlagsIsWWAN ) != 0);
 	
-	if( isReachable && isWWAN && !needsConnection ) {
+	if( isReachable && isWWAN ) {
 		type = @"wwan";
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 			NSLog( @"WMUtil: connectionType: Reachable via WWAN" );
 		}
-	} else if ( isReachable && !needsConnection ) {
+	} else if ( isReachable && !isWWAN ) {
 		type = @"wifi";
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 			NSLog( @"WMUtil: connectionType: Reachable via WiFi" );
 		}
-	} else if ( needsConnection ) {
+	} else {
 		type = @"other";
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 			NSLog( @"WMUtil: connectionType: Needs connection" );

@@ -34,10 +34,47 @@
 	[self.queue addObject:response];
 
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMResponseQueue: addResponse: Flushing response to acceptor");
+		NSLog(@"WMResponseQueue: addResponse: Attempting to flush response to acceptor");
 	}
-	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
-	[dispatch dispatchResponseQueue:self];
+	
+	if ( [WMPerfLib sharedWMPerfLib].waitForWiFi ) {
+
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMResponseQueue: addResponse: waitForWiFi = %d", 
+				  [WMPerfLib sharedWMPerfLib].waitForWiFi );
+		}
+		
+		if ( [[WMUtil connectionType] isEqualToString:@"wifi"] ) {
+			WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
+			[dispatch dispatchResponseQueue:self];		
+			if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+				NSLog(@"WMResponseQueue: addResponse: Flushed response to acceptor"); 
+			}	  
+		} else {
+			if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+				NSLog(@"WMResponseQueue: addResponse: Queued response for future delivery"); 
+			}	 			
+		}
+	} else {
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMResponseQueue: addResponse: waitForWiFi = %d, ctype = %@", 
+				  [WMPerfLib sharedWMPerfLib].waitForWiFi,[WMUtil connectionType]);
+		}	
+		if ([[WMUtil connectionType] isEqualToString:@"wifi"] ||
+			[[WMUtil connectionType] isEqualToString:@"wwan"] ) {
+			WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
+			[dispatch dispatchResponseQueue:self];			
+			if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+				NSLog(@"WMResponseQueue: addResponse: Flushed response to acceptor"); 
+			}	  
+		} else {
+			if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+				NSLog(@"WMResponseQueue: addResponse: No Internet connection. Queued."); 
+			}	  
+			
+		}
+
+	}
 		
 }
 

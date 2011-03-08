@@ -7,11 +7,20 @@
 //
 
 #import "WMPerfLib.h"
- 
+
+#pragma mark -
+#pragma mark Private Interface
+
+@interface WMDispatch (PrivateMethods)
+
+- (void)dispatchResponse:(NSString*)jsonDocument;
+
+@end
+
+#pragma mark -
 
 @implementation WMDispatch
 
-#pragma mark -
 #pragma mark Dispatch Method
 
 
@@ -125,10 +134,30 @@
 		}
 		
 		int t_connect = (int)(1000.0f*(response.didReceiveResponse - response.initRequest));
-		int t_firstbyte = (int)(1000.0f*(response.didReceiveFirstData - response.initRequest));
-		int t_done = (int)(1000.0f*(response.didFinishLoading - response.initRequest));
+		NSString *t_connectString;
+		if ( t_connect >= 0 ) {
+			t_connectString = [NSString stringWithFormat:@"%d", t_connect];
+		} else {
+			t_connectString = @"null";
+		}
 		
-		NSString *thisResult = [NSString stringWithFormat:@"{ \"result\": %@, \"error\": \"%@\", \"when\": \"%@\", \"url\": \"%@\", \"mcc\": \"%@\", \"mnc\": \"%@\", \"c_type\": \"%@\", \"t_connect\": %d, \"t_firstbyte\": %d, \"t_done\": %d, \"size\": %d  }", 
+		int t_firstbyte = (int)(1000.0f*(response.didReceiveFirstData - response.initRequest));
+		NSString *t_firstbyteString;
+		if ( t_firstbyte >= 0 ) {
+			t_firstbyteString = [NSString stringWithFormat:@"%d", t_firstbyte];
+		} else {
+			t_firstbyteString = @"null";
+		}
+		
+		int t_done = (int)(1000.0f*(response.didFinishLoading - response.initRequest));
+		NSString *t_doneString;
+		if ( t_done >= 0 ) {
+			t_doneString = [NSString stringWithFormat:@"%d", t_done];
+		} else {
+			t_doneString = @"null";
+		}
+		
+		NSString *thisResult = [NSString stringWithFormat:@"{ \"result\": %@, \"error\": \"%@\", \"when\": \"%@\", \"url\": \"%@\", \"mcc\": \"%@\", \"mnc\": \"%@\", \"c_type\": \"%@\", \"t_connect\": %@, \"t_firstbyte\": %@, \"t_done\": %@, \"size\": %d  }", 
 					  result,
 					  error,
 					  [response.when stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
@@ -136,9 +165,9 @@
 					  [response.mobileCountryCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 					  [response.mobileNetworkCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 					  [response.connectionType stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-					  t_connect,
-					  t_firstbyte,
-					  t_done,
+					  t_connectString,
+					  t_firstbyteString,
+					  t_doneString,
 					  (int)response.bytesReceived];
 		
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
@@ -170,7 +199,6 @@
 }
 
 
-#pragma mark -
 #pragma mark NSURLConnection Delegate Methods
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {

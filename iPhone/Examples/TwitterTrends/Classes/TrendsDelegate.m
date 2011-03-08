@@ -20,6 +20,7 @@
 	
 	[WMPerfLib sharedWMPerfLib].libraryDebug = YES;
 	[WMPerfLib sharedWMPerfLib].libraryOff = NO;
+	[WMPerfLib sharedWMPerfLib].waitForWiFi = YES;
 	[WMPerfLib sharedWMPerfLib].status;
 	
     // Override point for customization after app launch    

@@ -247,7 +247,6 @@ return self; \
 }
 
 - (void)dispatchResponseQueue:(WMResponseQueue *)responseQueue;
-- (void)dispatchResponse:(NSString*)jsonDocument;
 
 @end
 
