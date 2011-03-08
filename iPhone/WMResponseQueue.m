@@ -37,7 +37,17 @@
 		NSLog(@"WMResponseQueue: addResponse: Flushing response to acceptor");
 	}
 	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
-	[dispatch dispatchResponse:self];
+	[dispatch dispatchResponseQueue:self];
+		
+}
+
+- (void)flushQueue {
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMResponseQueue: flushQueue: Flushing response queue to acceptor");
+	}
+	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
+	[dispatch dispatchResponseQueue:self];	
+	
 }
 
 - (void)removeResponse:(WMResponse *)response {
@@ -55,6 +65,9 @@
 	
 }
 
-
+- (int)sizeOfQueue {
+	return [self.queue count];
+	
+}
 
 @end

@@ -14,99 +14,27 @@
 #pragma mark -
 #pragma mark Dispatch Method
 
-- (void)dispatchResponse:(WMResponseQueue *)responseQueue {
 
-	responseData = [[NSMutableData data] retain];
-	WMResponse *response = [responseQueue popResponse];
-   
-	// the URL
+- (id)init {
 	
+	if( self = [super init] ) {
+		responseData = [[NSMutableData data] retain];
+	}
+	return self;
+}
+
+- (void)dispatchResponse:(NSString *)jsonDocument {
+   
+	// the URL	
     NSString *url = @"http://rum-alpha.io.watchmouse.com/in/mobile/0.1/6/";
 	theURL = [[NSURL URLWithString:url] retain];
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMDispatch: dispatchResponse: theURL = %@", theURL );
 	}	
 	
-	/*  the JSON
-	
-	{"app": "HelloWorld",
-		"appversion": "1.3",
-		"key": "aghudHZndWlkZXIMCxIGTmdDaXR5GAUM",
-		"batched": true,
-		"device": "Al's phone", 
-		"os_version": "iOS 4.4", 
-		"model": "iPhone 4",
-		"measurements": 
-		[{"result": 0, 
-			"error": "", 
-			"when": "2011-02-17T11:07:01Z", 
-			"url": "http:\/\/api.watchmouse.com\/1.6\/cp_list?callback=x", 
-			"mcc": "310", 
-			"mnc": "012", 
-			"c_type": "3G", 
-			"t_connect": 500, 
-			"t_firstbyte": 3000, 
-			"t_done": 5000, 
-			"size": 10567}, 
-		 {"result": 0, 
-			 "error": "", 
-			 "when": "2011-02-17T11:09:12Z", 
-			 "url": "http:\/\/api.watchmouse.com\/1.6\/info_ip?callback=y", 
-			 "c_type": "wwan", 
-			 "ipaddr": "80.126.145.170",
-			 "t_connect": 200, 
-			 "t_firstbyte": 1000, 
-			 "t_done": 2000, 
-			 "size": 389}], 
-		"hash": null
-	}
-	*/
-	
-	NSNumber *result = [NSNumber numberWithInt:0];
-	if ( response.errorCode ) {
-		result = [NSNumber numberWithInt:response.errorCode];
-	}
-	NSString *error = @"";
-	if ( response.errorString != nil ) {
-		error = [response.errorString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	}
-	
-	if ( response.mobileCountryCode == nil ) {
-		response.mobileCountryCode = @"XXX";
-	}
-	if ( response.mobileNetworkCode == nil ) {
-		response.mobileNetworkCode = @"XXX";
-	}
-	
-	int t_connect = (int)(1000.0f*(response.didReceiveResponse - response.initRequest));
-	int t_firstbyte = (int)(1000.0f*(response.didReceiveFirstData - response.initRequest));
-	int t_done = (int)(1000.0f*(response.didFinishLoading - response.initRequest));
-	
-	NSString *json = [NSString stringWithFormat:@"{\"app\": \"%@\",\"appversion\": \"%@\", \"key\": \"%@\", \"batched\": false, \"device\": \"%@\", \"os_version\": \"%@\", \"model\": \"%@\", \"measurements\": [ { \"result\": %@, \"error\": \"%@\", \"when\": \"%@\", \"url\": \"%@\", \"mcc\": \"%@\", \"mnc\": \"%@\", \"c_type\": \"%@\", \"t_connect\": %d, \"t_firstbyte\": %d, \"t_done\": %d, \"size\": %d  }], \"hash\": \"%@\" }",
-		[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"],
-		[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
-		@"aghudHZndWlkZXIMCxIGTmdDaXR5GAUM",
-		[response.name stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-		[response.systemVersion stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-		[response.model stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-		result,
-		error,
-		[response.when stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-		[[response.url absoluteString] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-		[response.mobileCountryCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-		[response.mobileNetworkCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-		[response.connectionType stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-		t_connect,
-		t_firstbyte,
-		t_done,
-		(int)response.bytesReceived,
-		@""
-		];
-	
-	[result release];
-	
-	NSLog(@"json = %@", json );
-	NSData *requestData = [NSData dataWithBytes:[json UTF8String] length:[json length]];
+	// The JSON
+	NSLog(@"jsonDocument = %@", jsonDocument );
+	NSData *requestData = [NSData dataWithBytes:[jsonDocument UTF8String] length:[jsonDocument length]];
 				  
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:theURL];
 
@@ -119,6 +47,106 @@
 	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];    
 	
 }
+
+- (void)dispatchResponseQueue:(WMResponseQueue *)responseQueue {
+	
+	WMResponse *response;
+	
+	/*  the JSON
+	 
+	 {"app": "HelloWorld",
+	 "appversion": "1.3",
+	 "key": "aghudHZndWlkZXIMCxIGTmdDaXR5GAUM",
+	 "batched": true,
+	 "device": "Al's phone", 
+	 "os_version": "iOS 4.4", 
+	 "model": "iPhone 4",
+	 "measurements": 
+	 
+	 [{"result": 0, 
+	 "error": "", 
+	 "when": "2011-02-17T11:07:01Z", 
+	 "url": "http:\/\/api.watchmouse.com\/1.6\/cp_list?callback=x", 
+	 "mcc": "310", 
+	 "mnc": "012", 
+	 "c_type": "3G", 
+	 "t_connect": 500, 
+	 "t_firstbyte": 3000, 
+	 "t_done": 5000, 
+	 "size": 10567}, 
+	 {"result": 0, 
+	 "error": "", 
+	 "when": "2011-02-17T11:09:12Z", 
+	 "url": "http:\/\/api.watchmouse.com\/1.6\/info_ip?callback=y", 
+	 "c_type": "wwan", 
+	 "ipaddr": "80.126.145.170",
+	 "t_connect": 200, 
+	 "t_firstbyte": 1000, 
+	 "t_done": 2000, 
+	 "size": 389}],
+	 
+	 "hash": null
+	 }
+	 */
+	
+	NSString *jsonResults = @"";
+	while ( [responseQueue sizeOfQueue] > 0 ) {
+		
+		response = [responseQueue popResponse];
+		NSNumber *result = [NSNumber numberWithInt:0];
+		if ( response.errorCode ) {
+			result = [NSNumber numberWithInt:response.errorCode];
+		}
+		NSString *error = @"";
+		if ( response.errorString != nil ) {
+			error = [response.errorString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+		}
+		
+		if ( response.mobileCountryCode == nil ) {
+			response.mobileCountryCode = @"XXX";
+		}
+		if ( response.mobileNetworkCode == nil ) {
+			response.mobileNetworkCode = @"XXX";
+		}
+		
+		int t_connect = (int)(1000.0f*(response.didReceiveResponse - response.initRequest));
+		int t_firstbyte = (int)(1000.0f*(response.didReceiveFirstData - response.initRequest));
+		int t_done = (int)(1000.0f*(response.didFinishLoading - response.initRequest));
+		
+		NSString *thisResult = [NSString stringWithFormat:@"{ \"result\": %@, \"error\": \"%@\", \"when\": \"%@\", \"url\": \"%@\", \"mcc\": \"%@\", \"mnc\": \"%@\", \"c_type\": \"%@\", \"t_connect\": %d, \"t_firstbyte\": %d, \"t_done\": %d, \"size\": %d  }", 
+					  result,
+					  error,
+					  [response.when stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [[response.url absoluteString] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [response.mobileCountryCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [response.mobileNetworkCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [response.connectionType stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  t_connect,
+					  t_firstbyte,
+					  t_done,
+					  (int)response.bytesReceived];
+					  
+		[jsonResults stringByAppendingString:thisResult];		
+	}	
+		
+		
+	NSString *json = [NSString stringWithFormat:@"{\"app\": \"%@\",\"appversion\": \"%@\", \"key\": \"%@\", \"batched\": false, \"device\": \"%@\", \"os_version\": \"%@\", \"model\": \"%@\", \"measurements\": [ %@ ], \"hash\": \"%@\" }",
+					  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"],
+					  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+					  [[WMPerfLib sharedWMPerfLib] token],
+					  [[UIDevice currentDevice].name stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [[UIDevice currentDevice].systemVersion stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [[UIDevice currentDevice].model stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  jsonResults,
+					  @""
+					  ];
+
+	
+	NSLog(@"json = %@", json );
+	  
+	
+}
+
 
 #pragma mark -
 #pragma mark NSURLConnection Delegate Methods

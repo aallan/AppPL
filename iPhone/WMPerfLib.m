@@ -12,6 +12,7 @@
 
 @synthesize libraryDebug;
 @synthesize libraryOff;
+@synthesize waitForWiFi;
 
 @synthesize queue;
 @synthesize token;

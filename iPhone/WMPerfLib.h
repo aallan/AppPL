@@ -152,6 +152,8 @@ return self; \
 - (void)addResponse:(WMResponse *)response;
 - (void)removeResponse:(WMResponse *)response;
 - (WMResponse *)popResponse;
+- (int)sizeOfQueue;
+- (void)flushQueue;
 
 @end
 
@@ -163,6 +165,7 @@ return self; \
 
 	BOOL libraryDebug;
 	BOOL libraryOff;
+	BOOL waitForWiFi;
 	
 	NSString *token;
 	WMResponseQueue *queue;
@@ -173,6 +176,7 @@ return self; \
 @property (nonatomic, retain) NSString *token;
 @property (nonatomic) BOOL libraryDebug;
 @property (nonatomic) BOOL libraryOff;
+@property (nonatomic) BOOL waitForWiFi;
 
 + (WMPerfLib*) sharedWMPerfLib; 
 - (void) status;
@@ -242,7 +246,8 @@ return self; \
 	
 }
 
-- (void)dispatchResponse:(WMResponseQueue *)responseQueue;
+- (void)dispatchResponseQueue:(WMResponseQueue *)responseQueue;
+- (void)dispatchResponse:(NSString*)jsonDocument;
 
 @end
 
