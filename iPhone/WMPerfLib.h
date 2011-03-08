@@ -25,7 +25,7 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 
-#define WM_VERSION 0.1
+#define WM_VERSION 0.9
 #define ISO_TIMEZONE_UTC_FORMAT @"Z"
 #define ISO_TIMEZONE_OFFSET_FORMAT @"%+02d%02d"
 
@@ -179,6 +179,7 @@ return self; \
 
 @optional
 - (void)flushedResponseQueue;
+- (void)flushFailedWithError:(NSError *)error;
 
 @end
 

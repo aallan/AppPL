@@ -42,7 +42,7 @@
 	}	
 	
 	// The JSON
-	NSLog(@"jsonDocument = %@", jsonDocument );
+	NSLog(@"WMDispatch: dispatchResponse: json = %@", jsonDocument );
 	NSData *requestData = [NSData dataWithBytes:[jsonDocument UTF8String] length:[jsonDocument length]];
 				  
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:theURL];
@@ -171,9 +171,9 @@
 					  t_doneString,
 					  (int)response.bytesReceived];
 		
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		/*if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 			NSLog(@"WMDispatch: dispatchResponseQueue: thisResult = %@", thisResult );
-		}		
+		}*/		
 		jsonResults = [jsonResults stringByAppendingString:thisResult];
 		if ( [responseQueue sizeOfQueue] > 0 ) {
 			jsonResults = [jsonResults stringByAppendingString:@", "];
@@ -194,7 +194,7 @@
 					  ];
 
 	
-	NSLog(@"WMDispatch: dispatchResponseQueue: json = %@", json );
+	NSLog(@"WMDispatch: dispatchResponseQueue: Dispatching JSON", json );
 	[self dispatchResponse:json];  
 	
 }
@@ -233,6 +233,17 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {	
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMDispatch: connection:didFailWithError: %@", error);
+	}
+
+	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushFailedWithError:)]) {	
+		[[WMPerfLib delegate] flushFailedWithError:error];
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMDispatch: cdidFailWithError: Called flushFailedWithError: delegate method.");
+		}
+	} else {
+		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			NSLog(@"WMDispatch: didFailWithError: No response to flushFailedWithError: method in delegate.");
+		}		
 	}
 	
 	// Re-add the response to the queue
