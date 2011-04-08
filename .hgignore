@@ -2,3 +2,4 @@ syntax: glob
 build
 .DS_Store
 aa.*
+contents.xcworkspacedata

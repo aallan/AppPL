@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		000035E812B2289000DCD615 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000035E712B2289000DCD615 /* CoreTelephony.framework */; };
 		000035EA12B2289700DCD615 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000035E912B2289700DCD615 /* SystemConfiguration.framework */; };
+		009F84EA134F0A74002A9A31 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 009F84E9134F0A74002A9A31 /* libsqlite3.dylib */; };
 		00A4E59D1326524200FF3110 /* libAppPL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A4E59B1326524200FF3110 /* libAppPL.a */; };
 		00B399C61055038E00E4CE16 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B399C51055038E00E4CE16 /* WebViewController.m */; };
 		00B399C81055039600E4CE16 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B399C71055039600E4CE16 /* WebView.xib */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		000035E712B2289000DCD615 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		000035E912B2289700DCD615 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		009F84E9134F0A74002A9A31 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		00A4E59B1326524200FF3110 /* libAppPL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppPL.a; path = "../../build/Debug-universal/libAppPL.a"; sourceTree = SOURCE_ROOT; };
 		00A4E59C1326524200FF3110 /* WMPerfLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WMPerfLib.h; path = "../../build/Debug-universal/WMPerfLib.h"; sourceTree = SOURCE_ROOT; };
 		00B399C41055038E00E4CE16 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				009F84EA134F0A74002A9A31 /* libsqlite3.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -131,6 +134,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				009F84E9134F0A74002A9A31 /* libsqlite3.dylib */,
 				00A4E59B1326524200FF3110 /* libAppPL.a */,
 				00A4E59C1326524200FF3110 /* WMPerfLib.h */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -257,6 +261,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Alasdair Allan (U5K5JPRS76)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -270,6 +275,7 @@
 					"\"$(SRCROOT)/../../build/Debug-universal\"",
 				);
 				PRODUCT_NAME = TwitterTrends;
+				PROVISIONING_PROFILE = "F65DAFAD-F04D-44A5-BC46-4733F94BBE8B";
 			};
 			name = Debug;
 		};
