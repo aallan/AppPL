@@ -45,7 +45,7 @@
 
 - (id)init {
 	
-	if( self = [super init] ) {
+	if( (self = [super init]) ) {
 		responseData = [[NSMutableData data] retain];
 	}
 	return self;
@@ -176,7 +176,7 @@
 					  ];
 
 	
-	NSLog(@"WMDispatch: dispatchResponseQueue: Dispatching JSON", json );
+	NSLog(@"WMDispatch: dispatchResponseQueue: Dispatching JSON" );
 	[self dispatchResponse:json];  
 	
 }
@@ -220,7 +220,7 @@
 	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushFailedWithError:)]) {	
 		[[WMPerfLib delegate] flushFailedWithError:error];
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: cdidFailWithError: Called flushFailedWithError: delegate method.");
+			NSLog(@"WMDispatch: didFailWithError: Called flushFailedWithError: delegate method.");
 		}
 	} else {
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
@@ -229,8 +229,9 @@
 	}
 	
 	// Re-add the response to the queue
-	//WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
-	//[singleton.queue addResponse:analytics];
+    analytics.waitForNextFlush = YES;
+	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	[singleton.queue addResponse:analytics];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {

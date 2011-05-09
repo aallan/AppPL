@@ -57,9 +57,11 @@
 @synthesize errorString;
 @synthesize errorCode;
 
+@synthesize waitForNextFlush;
+
 - (id)init {
 
-	if( self = [super init] ) {
+	if( (self = [super init]) ) {
 
 		self.uniqueIdentifier = [UIDevice currentDevice].uniqueIdentifier;
 		self.name = [UIDevice currentDevice].name;
@@ -80,6 +82,8 @@
 		self.connectionType = [WMUtil connectionType];
 		
 		self.when = [WMUtil stringFromDate:[NSDate date]];
+        
+        self.waitForNextFlush = NO;
 	}
 	return self;
 }

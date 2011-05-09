@@ -96,8 +96,7 @@
 
 -(void)flushedResponseQueue:(NSString *)jsonString {
 	
-	NSLog(@"GOT DELEGATE CALL FROM WMPERFLIB");
-	NSLog(@"JSON = %@", jsonString);
+	NSLog(@"RootController: flushedResponseQueue: Delegate Callback, jsonString = %@", jsonString);
 }
 
 @end

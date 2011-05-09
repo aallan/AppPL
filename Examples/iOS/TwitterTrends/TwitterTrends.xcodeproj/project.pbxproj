@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		000035E812B2289000DCD615 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000035E712B2289000DCD615 /* CoreTelephony.framework */; };
 		000035EA12B2289700DCD615 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000035E912B2289700DCD615 /* SystemConfiguration.framework */; };
-		00150E661378A4AA009BE263 /* libAppPL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00150E641378A4AA009BE263 /* libAppPL.a */; };
+		00150E781378ABA5009BE263 /* libAppPL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00150E761378ABA5009BE263 /* libAppPL.a */; };
 		009F84EA134F0A74002A9A31 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 009F84E9134F0A74002A9A31 /* libsqlite3.dylib */; };
 		00B399C61055038E00E4CE16 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B399C51055038E00E4CE16 /* WebViewController.m */; };
 		00B399C81055039600E4CE16 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B399C71055039600E4CE16 /* WebView.xib */; };
@@ -33,8 +33,8 @@
 /* Begin PBXFileReference section */
 		000035E712B2289000DCD615 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		000035E912B2289700DCD615 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		00150E641378A4AA009BE263 /* libAppPL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppPL.a; sourceTree = "<group>"; };
-		00150E651378A4AA009BE263 /* WMPerfLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPerfLib.h; sourceTree = "<group>"; };
+		00150E761378ABA5009BE263 /* libAppPL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppPL.a; sourceTree = "<group>"; };
+		00150E771378ABA5009BE263 /* WMPerfLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPerfLib.h; sourceTree = "<group>"; };
 		009F84E9134F0A74002A9A31 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		00B399C41055038E00E4CE16 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WebViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		00B399C51055038E00E4CE16 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WebViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -80,7 +80,7 @@
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				000035E812B2289000DCD615 /* CoreTelephony.framework in Frameworks */,
 				000035EA12B2289700DCD615 /* SystemConfiguration.framework in Frameworks */,
-				00150E661378A4AA009BE263 /* libAppPL.a in Frameworks */,
+				00150E781378ABA5009BE263 /* libAppPL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,8 +134,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				00150E641378A4AA009BE263 /* libAppPL.a */,
-				00150E651378A4AA009BE263 /* WMPerfLib.h */,
+				00150E771378ABA5009BE263 /* WMPerfLib.h */,
+				00150E761378ABA5009BE263 /* libAppPL.a */,
 				009F84E9134F0A74002A9A31 /* libsqlite3.dylib */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,

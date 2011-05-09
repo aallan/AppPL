@@ -137,6 +137,8 @@ return self; \
 	BOOL error;
 	NSString *errorString;
 	int errorCode;
+
+    BOOL waitForNextFlush;
 }
 
 @property (nonatomic, retain) NSURL *url;
@@ -167,6 +169,8 @@ return self; \
 @property (nonatomic) BOOL error;
 @property (nonatomic, retain) NSString *errorString;
 @property (nonatomic) int errorCode;
+
+@property (nonatomic) BOOL waitForNextFlush;
 
 @end
 

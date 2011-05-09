@@ -33,7 +33,7 @@
 
 - (id)init {
 	
-	if( self = [super init] ) {
+	if( (self = [super init]) ) {
 		queue = [[NSMutableArray alloc] init];
 		
 		// check for saved state in database, 
@@ -82,12 +82,29 @@
 }
 
 - (void)addResponse:(WMResponse *)response {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+
+    if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		//NSLog(@"WMResponseQueue: addResponse: Adding response to queue: %@", response);
 		NSLog(@"WMResponseQueue: addResponse: Adding response to queue");
 	}
+    BOOL flag = NO;
+    if ( response.waitForNextFlush == YES ) {
+        response.waitForNextFlush = NO;
+        flag = YES;
+    }
 	[self.queue addObject:response];
 
+    // If we've just re-added a failed response to the queue, wait for next time
+    // before attempting to flush it to the acceptor. Hopefully stop runaway loops.
+    if ( flag ) {
+        if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+            NSLog(@"WMResponseQueue: addResponse: Queued response for future delivery");
+            
+        }
+        return;
+    }
+              
+              
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMResponseQueue: addResponse: Attempting to flush response to acceptor");
 	}
