@@ -192,6 +192,8 @@
         else
             [strFormat appendFormat:ISO_TIMEZONE_OFFSET_FORMAT, offset / 60, offset % 60];
 		
+        NSLog(@"WMUtil: strFormat = %@", strFormat);
+        
         [formatter setTimeStyle:NSDateFormatterFullStyle];
         [formatter setDateFormat:strFormat];
     }

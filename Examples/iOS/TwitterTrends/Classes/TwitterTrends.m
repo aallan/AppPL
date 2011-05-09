@@ -42,7 +42,7 @@
 	viewController = (RootController *)controller;
 	responseData = [[NSMutableData data] retain];
 	
-	NSString *url = [NSString stringWithFormat:@"http://search.twitter.com/trends.json"];	
+	NSString *url = [NSString stringWithFormat:@"http://api.twitter.com/1/trends.json"];	
 	theURL = [[NSURL URLWithString:url] retain];
 	NSURLRequest *request = [NSURLRequest requestWithURL:theURL];
 	[[WMURLConnection alloc] initWithRequest:request delegate:self];
