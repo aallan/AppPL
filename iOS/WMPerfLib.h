@@ -26,10 +26,7 @@
 
 /* 
  
- TO DO: Version 1 (still outstanding as of 8/May/11)
- 
- * Implement serialisation of queue on applicaiton quit/suspend
- * Documentation
+ Documentation
 	- Sample applications
 	- How-to install AppPL in your application
 	- How-to configure AppPL for your application
@@ -42,7 +39,6 @@
 
 #include <ifaddrs.h>
 #include <arpa/inet.h>
-#include <sqlite3.h>
 
 
 #define WM_VERSION 0.9
@@ -107,7 +103,7 @@ return self; \
 #pragma mark -
 #pragma mark WMResponse
 
-@interface WMResponse : NSObject {
+@interface WMResponse : NSObject <NSCoding> {
 	
 	NSURL *url;
 	
@@ -179,13 +175,10 @@ return self; \
 #pragma mark WMResponseQueue
 
 
-@interface WMResponseQueue : NSObject {
+@interface WMResponseQueue : NSObject <NSCoding> {
 	
 	NSMutableArray *queue;
-	
-	NSString *databasePath;
-	sqlite3 *queueDB;
-	
+		
 }
 
 @property (nonatomic, retain) NSMutableArray *queue;
@@ -195,7 +188,6 @@ return self; \
 - (WMResponse *)popResponse;
 - (int)sizeOfQueue;
 - (void)flushQueue;
-- (void)saveQueue;
 
 @end
 
@@ -206,8 +198,8 @@ return self; \
 @protocol WMPerfLibDelegate <NSObject>
 
 @optional
-- (void)flushedResponseQueue:(NSString *)jsonString;
-- (void)flushFailedWithError:(NSError *)error;
+- (void)flushCompletedWithResponse:(NSString *)jsonString;
+- (void)flushFailedWithError:(NSError *)error andResponse:(NSString *)jsonString;
 
 @end
 
@@ -234,6 +226,8 @@ return self; \
 + (void) setDelegate:(id)newDelegate;
 
 - (void) status;
+- (void) archiveQueue;
+- (void) restoreQueue;
 
 @end
 
@@ -280,6 +274,7 @@ return self; \
 + (NSString *)connectionType;
 + (NSString *)stringFromDate:(NSDate *)theDate;
 + (NSDate *)dateFromString:(NSString *)theString;
++ (NSString *)documentsDirectoryPath;
 
 @end
 

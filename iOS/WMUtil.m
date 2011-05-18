@@ -192,7 +192,7 @@
         else
             [strFormat appendFormat:ISO_TIMEZONE_OFFSET_FORMAT, offset / 60, offset % 60];
 		
-        NSLog(@"WMUtil: strFormat = %@", strFormat);
+        //NSLog(@"WMUtil: strFormat = %@", strFormat);
         
         [formatter setTimeStyle:NSDateFormatterFullStyle];
         [formatter setDateFormat:strFormat];
@@ -219,5 +219,12 @@
 	
 }
 
++(NSString *)documentsDirectoryPath {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+        NSLog( @"WMUtil: documentsDirectoryPath: path = %@", [paths objectAtIndex:0] );
+    }
+    return [paths objectAtIndex:0];
+} 
 
 @end

@@ -34,44 +34,7 @@
 - (id)init {
 	
 	if( (self = [super init]) ) {
-		queue = [[NSMutableArray alloc] init];
-		
-		// check for saved state in database, 
-		// create database if it doesn't exist
-		
-		// Check database exists
-		NSArray *directoryPaths = 
-		NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-		NSString *documentDirectory = [directoryPaths objectAtIndex:0];
-		
-		// Build the path to the database file
-		databasePath = [[NSString alloc] initWithString: [documentDirectory stringByAppendingPathComponent: @"queue.db"]];
-		
-		NSFileManager *fileManager = [NSFileManager defaultManager];
-		if ([fileManager fileExistsAtPath: databasePath ] == NO) {
-			const char *dbpath = [databasePath UTF8String];
-			
-			if (sqlite3_open(dbpath, &queueDB) == SQLITE_OK) {
-				char *errMsg;
-				const char *sql_stmt = "CREATE TABLE IF NOT EXISTS QUEUE (ID INTEGER PRIMARY KEY AUTOINCREMENT, ENTRY TEXT)";
-				
-				if (sqlite3_exec(queueDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK) {
-					if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-						NSLog(@"WMResponseQueue: init: Failed to create queue.db table.");
-					}
-				}
-				sqlite3_close(queueDB);
-				
-			} else {
-				if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-					NSLog(@"WMResponseQueue: init: Failed to open/create queue.db");
-				}
-			}
-		}
-		[fileManager release];
-		
-		// Grab contents of database
-		
+		queue = [[NSMutableArray alloc] init];        
 	}
 	return self;
 }
@@ -84,26 +47,25 @@
 - (void)addResponse:(WMResponse *)response {
 
     if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		//NSLog(@"WMResponseQueue: addResponse: Adding response to queue: %@", response);
 		NSLog(@"WMResponseQueue: addResponse: Adding response to queue");
 	}
-    BOOL flag = NO;
     if ( response.waitForNextFlush == YES ) {
         response.waitForNextFlush = NO;
-        flag = YES;
-    }
-	[self.queue addObject:response];
-
-    // If we've just re-added a failed response to the queue, wait for next time
-    // before attempting to flush it to the acceptor. Hopefully stop runaway loops.
-    if ( flag ) {
+        
+        // If we've just re-added a failed response to the queue, wait for next time
+        // before attempting to flush it to the acceptor. Hopefully stop runaway loops.
         if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
             NSLog(@"WMResponseQueue: addResponse: Queued response for future delivery");
             
         }
+        
+        // Add the passed response to the queue
+        [self.queue addObject:response];
         return;
     }
-              
+    
+    // Add the passed response to the queue
+	[self.queue addObject:response];       
               
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMResponseQueue: addResponse: Attempting to flush response to acceptor");
@@ -179,38 +141,19 @@
 	
 }
 
-- (void)saveQueue {
-	
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMResponseQueue: saveQueue: Saving queue to database.");
+#pragma mark NSCoding
+
+
+- (id)initWithCoder:(NSCoder *)decoder {
+	if ((self = [super init])) {
+        self.queue = [decoder decodeObjectForKey:@"queue"];
 	}
-													  
-/*
- http://www.techotopia.com/index.php/An_Example_SQLite_based_iOS_4_iPhone_Application
- 
- const char *dbpath = [databasePath UTF8String];
- 
- if (sqlite3_open(dbpath, &contactDB) == SQLITE_OK)
- {
- NSString *insertSQL = [NSString stringWithFormat: @"INSERT INTO CONTACTS (name, address, phone) VALUES (\"%@\", \"%@\", \"%@\")", name.text, address.text, phone.text];
- 
- const char *insert_stmt = [insertSQL UTF8String];
- 
- sqlite3_prepare_v2(contactDB, insert_stmt, -1, &statement, NULL);
- if (sqlite3_step(statement) == SQLITE_DONE)
- {
- status.text = @"Contact added";
- name.text = @"";
- address.text = @"";
- phone.text = @"";
- } else {
- status.text = @"Failed to add contact";
- }
- sqlite3_finalize(statement);
- sqlite3_close(contactDB);
- }
- */
-	
+	return self;
 }
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.queue forKey:@"queue"];   
+}
+
 
 @end

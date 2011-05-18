@@ -68,6 +68,44 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
 	
 }
 
+// http://cocoadevcentral.com/articles/000084.php
+- (void)archiveQueue {
+	
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMPerfLib: archiveQueue: Saving queue of %d items to Document Directory.", [self.queue sizeOfQueue]);
+
+	}
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.queue];
+    NSString *file = [[WMUtil documentsDirectoryPath] stringByAppendingPathComponent: @"queue.plist"]; 
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager createFileAtPath:file contents:data attributes:nil];
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMPerfLib: archiveQueue: file = %@", file);
+        
+	}
+	
+}
+
+- (void)restoreQueue {
+ 	
+	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMResponseQueue: restoreQueue: Restoring queue from Document Directory.");
+	}   
+    
+    NSString *file = [[WMUtil documentsDirectoryPath] stringByAppendingPathComponent: @"queue.plist"]; 
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSData *data = [fileManager contentsAtPath:file];
+    self.queue = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+    if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		NSLog(@"WMResponseQueue: restoreQueue: Restored %d items to queue.", [self.queue sizeOfQueue]);
+	} 
+    
+}
+
+
+
 + (id)delegate {
 	
     return _delegate;

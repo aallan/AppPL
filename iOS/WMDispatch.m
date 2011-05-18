@@ -213,18 +213,20 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {	
+
+    NSString *content = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 		NSLog(@"WMDispatch: connection:didFailWithError: %@", error);
 	}
 
 	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushFailedWithError:)]) {	
-		[[WMPerfLib delegate] flushFailedWithError:error];
+		[[WMPerfLib delegate] flushFailedWithError:error andResponse:content];
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: didFailWithError: Called flushFailedWithError: delegate method.");
+			NSLog(@"WMDispatch: connection:didFailWithError: Called flushFailedWithError: delegate method.");
 		}
 	} else {
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: didFailWithError: No response to flushFailedWithError: method in delegate.");
+			NSLog(@"WMDispatch: connection:didFailWithError: No response to flushFailedWithError: method in delegate.");
 		}		
 	}
 	
@@ -243,7 +245,7 @@
 	}
 
 	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushedResponseQueue:)]) {	
-		[[WMPerfLib delegate] flushedResponseQueue:content];
+		[[WMPerfLib delegate] flushCompletedWithResponse:content];
 		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
 			NSLog(@"WMDispatch: connectionDidFinishLoading: Called flushedResponseQueue: delegate method.");
 		}

@@ -88,53 +88,59 @@
 	return self;
 }
 
-- (NSString *)description {
-	
-	return [NSString stringWithFormat:
-	 @"\n"
-	 @"url = %@\n"
-	 @"uniqueIdentifier = %@\n"
-	 @"name = %@\n"
-	 @"systemName = %@\n"
-	 @"systemVersion = %@\n" 
-	 @"model = %@\n"
-	 @"localizedModel = %@\n"
-	 @"carrierName = %@\n"
-	 @"isoCountryCode = %@\n"
-	 @"mobileCountryCode = %@\n"
-	 @"mobileNetworkCode = %@\n"
-	 @"ipAddress = %@\n"
-	 @"connectionType = %@\n"		
-	 @"initRequest = %f\n"
-	 @"didReceiveResponse = %f\n"
-	 @"didReceiveFirstData = %f\n"
-	 @"didFinishLoading = %f\n"
-	 @"bytesReceived = %d\n"
-	 @"error = %d\n"
-	 @"errorString = %@\n"
-	 @"errorCode = %d\n",
-	 self.url,
-	 self.uniqueIdentifier,
-	 self.name,
-	 self.systemName,
-	 self.systemVersion,
-	 self.model,
-	 self.localizedModel,
-	 self.carrierName,
-	 self.isoCountryCode,
-	 self.mobileCountryCode,
-	 self.mobileNetworkCode,
-	 self.ipAddress,
-	 self.connectionType,
-	 self.initRequest,
-	 self.didReceiveResponse,
-	 self.didReceiveFirstData,
-	 self.didFinishLoading,
-	 self.bytesReceived,
-	 self.error,
-	 self.errorString,
-	 self.errorCode];
-	
+- (id)initWithCoder:(NSCoder *)decoder {
+	if ((self = [super init])) {
+        self.url = [decoder decodeObjectForKey:@"url"];
+        self.uniqueIdentifier = [decoder decodeObjectForKey:@""];
+        self.name = [decoder decodeObjectForKey:@""];
+        self.systemName = [decoder decodeObjectForKey:@""];
+        self.systemVersion = [decoder decodeObjectForKey:@""];
+        self.model = [decoder decodeObjectForKey:@""];
+        self.localizedModel = [decoder decodeObjectForKey:@""];
+        self.carrierName = [decoder decodeObjectForKey:@""];
+        self.isoCountryCode = [decoder decodeObjectForKey:@""];
+        self.mobileCountryCode = [decoder decodeObjectForKey:@""];
+        self.mobileNetworkCode = [decoder decodeObjectForKey:@""];
+        self.ipAddress = [decoder decodeObjectForKey:@""];
+        self.connectionType = [decoder decodeObjectForKey:@""];
+        self.when = [decoder decodeObjectForKey:@""];
+        self.initRequest = [decoder decodeDoubleForKey:@""];
+        self.didReceiveResponse = [decoder decodeDoubleForKey:@""];
+        self.didReceiveFirstData = [decoder decodeDoubleForKey:@""];
+        self.didFinishLoading = [decoder decodeDoubleForKey:@""];
+        self.bytesReceived = [decoder decodeIntForKey:@""];
+        self.error = [decoder decodeBoolForKey:@""];
+        self.errorString = [decoder decodeObjectForKey:@""];
+        self.errorCode = [decoder decodeIntForKey:@""];
+        self.waitForNextFlush = [decoder decodeBoolForKey:@""];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.url forKey:@""];
+    [encoder encodeObject:self.uniqueIdentifier forKey:@""];
+    [encoder encodeObject:self.name forKey:@""];
+    [encoder encodeObject:self.systemName forKey:@""];
+    [encoder encodeObject:self.systemVersion forKey:@""];
+    [encoder encodeObject:self.model forKey:@""];
+    [encoder encodeObject:self.localizedModel forKey:@""];
+    [encoder encodeObject:self.carrierName forKey:@""];
+    [encoder encodeObject:self.isoCountryCode forKey:@""];
+    [encoder encodeObject:self.mobileCountryCode forKey:@""];
+    [encoder encodeObject:self.mobileNetworkCode forKey:@""];
+    [encoder encodeObject:self.ipAddress forKey:@""];
+    [encoder encodeObject:self.connectionType forKey:@""];
+    [encoder encodeObject:self.when forKey:@""];
+    [encoder encodeDouble:self.initRequest forKey:@""];
+    [encoder encodeDouble:self.didReceiveResponse forKey:@""];
+    [encoder encodeDouble:self.didReceiveFirstData forKey:@""];
+    [encoder encodeDouble:self.didFinishLoading forKey:@""];
+    [encoder encodeInt:self.bytesReceived forKey:@""];
+    [encoder encodeBool:self.error forKey:@""];
+    [encoder encodeObject:self.errorString forKey:@""];
+    [encoder encodeInt:self.errorCode forKey:@""];
+    [encoder encodeBool:self.waitForNextFlush forKey:@""];    
 }
 
 - (void)dealloc {
