@@ -1,5 +1,5 @@
 //
-//  WMPerfLib.h
+//  WMAppPL.h
 //  App Performance Library
 //
 //  Created by Alasdair Allan on 01/12/2010.
@@ -187,24 +187,23 @@ return self; \
 - (void)removeResponse:(WMResponse *)response;
 - (WMResponse *)popResponse;
 - (int)sizeOfQueue;
-- (void)flushQueue;
 
 @end
 
 
 #pragma mark -
-#pragma mark WMPerfLib
+#pragma mark WMAppPL
 
-@protocol WMPerfLibDelegate <NSObject>
+@protocol WMAppPLDelegate <NSObject>
 
 @optional
-- (void)flushCompletedWithResponse:(NSString *)jsonString;
-- (void)flushFailedWithError:(NSError *)error andResponse:(NSString *)jsonString;
+- (void)flushCompletedWithResponse:(NSString *)json;
+- (void)flushFailedWithError:(NSError *)error andResponse:(NSString *)json;
 
 @end
 
 
-@interface WMPerfLib : NSObject {
+@interface WMAppPL : NSObject {
 
 	BOOL libraryDebug;
 	BOOL libraryOff;
@@ -221,13 +220,14 @@ return self; \
 @property (nonatomic) BOOL libraryOff;
 @property (nonatomic) BOOL waitForWiFi;
 
-+ (WMPerfLib*) sharedWMPerfLib; 
++ (WMAppPL*) sharedWMAppPL; 
 + (id) delegate;	
 + (void) setDelegate:(id)newDelegate;
 
 - (void) status;
 - (void) archiveQueue;
 - (void) restoreQueue;
+- (void) flushQueue;
 
 @end
 

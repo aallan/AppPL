@@ -24,7 +24,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "WMPerfLib.h"
+#import "WMAppPL.h"
 
 
 @implementation WMWebView
@@ -48,7 +48,7 @@
 	analytics = [[WMResponse alloc] init];
 	analytics.initRequest = CFAbsoluteTimeGetCurrent(); 
 	analytics.url = request.URL;
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMWebView: webView:shouldStartLoadWithRequest: URL = %@", request.URL);
 		NSLog(@"WMWebView: webView:shouldStartLoadWithRequest: initRequest at %f", analytics.initRequest);
 	}
@@ -61,7 +61,7 @@
 }
 
 - (void)webViewDidStartLoad:(WMWebView *)wv {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMWebView: webViewDidStartLoad:");
 	}
 	
@@ -74,7 +74,7 @@
 
 
 - (void)webView:(WMWebView *)webView didFailLoadWithError:(NSError *)error {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {		
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {		
 		NSDictionary *userInfo = error.userInfo;
 		NSArray *keys = userInfo.allKeys;
 		NSArray *values = userInfo.allValues;		
@@ -93,7 +93,7 @@
 		[_myDelegate webView:webView didFailLoadWithError:error];
 	}
 	
-	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	WMAppPL *singleton = [WMAppPL sharedWMAppPL];
 	if ( !singleton.libraryOff ) {
 		if (singleton.libraryDebug ) {
 			NSLog(@"WMURLConnection: webView:didFailLoadWithError: Adding response to queue" );
@@ -114,7 +114,7 @@
 	
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
 	analytics.bytesReceived = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.outerHTML"] length];
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMWebView: webViewDiDFinishLoad: didFinishLoading at %f", analytics.didFinishLoading);
 		NSLog(@"WMWebView: webViewDiDFinishLoad: document.body.outerHTML length = %d", analytics.bytesReceived);
 	}	
@@ -122,7 +122,7 @@
 		[_myDelegate webViewDidFinishLoad:wv];
 	} 
 	
-	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	WMAppPL *singleton = [WMAppPL sharedWMAppPL];
 	if ( !singleton.libraryOff ) {
 		if (singleton.libraryDebug ) {
 			NSLog(@"WMURLConnection: webViewDiDFinishLoad: Adding response to queue" );

@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		000035E812B2289000DCD615 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000035E712B2289000DCD615 /* CoreTelephony.framework */; };
 		000035EA12B2289700DCD615 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000035E912B2289700DCD615 /* SystemConfiguration.framework */; };
-		00150E781378ABA5009BE263 /* libAppPL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00150E761378ABA5009BE263 /* libAppPL.a */; };
-		009F84EA134F0A74002A9A31 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 009F84E9134F0A74002A9A31 /* libsqlite3.dylib */; };
 		00B399C61055038E00E4CE16 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B399C51055038E00E4CE16 /* WebViewController.m */; };
 		00B399C81055039600E4CE16 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B399C71055039600E4CE16 /* WebView.xib */; };
 		00B39A2310550EEA00E4CE16 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B39A1810550EEA00E4CE16 /* NSObject+SBJSON.m */; };
@@ -20,6 +18,7 @@
 		00B39A2710550EEA00E4CE16 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B39A2010550EEA00E4CE16 /* SBJsonParser.m */; };
 		00B39A2810550EEA00E4CE16 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B39A2210550EEA00E4CE16 /* SBJsonWriter.m */; };
 		00B39A2B1055100100E4CE16 /* TwitterTrends.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B39A2A1055100100E4CE16 /* TwitterTrends.m */; };
+		00B3B7A913854F77000B5427 /* libAppPL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B3B7A713854F77000B5427 /* libAppPL.a */; };
 		1D3623260D0F684500981E51 /* TrendsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* TrendsDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -33,9 +32,6 @@
 /* Begin PBXFileReference section */
 		000035E712B2289000DCD615 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		000035E912B2289700DCD615 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		00150E761378ABA5009BE263 /* libAppPL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppPL.a; sourceTree = "<group>"; };
-		00150E771378ABA5009BE263 /* WMPerfLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPerfLib.h; sourceTree = "<group>"; };
-		009F84E9134F0A74002A9A31 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		00B399C41055038E00E4CE16 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WebViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		00B399C51055038E00E4CE16 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WebViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		00B399C71055039600E4CE16 /* WebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebView.xib; sourceTree = "<group>"; };
@@ -54,6 +50,8 @@
 		00B39A2210550EEA00E4CE16 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		00B39A291055100100E4CE16 /* TwitterTrends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TwitterTrends.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		00B39A2A1055100100E4CE16 /* TwitterTrends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TwitterTrends.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		00B3B7A713854F77000B5427 /* libAppPL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppPL.a; sourceTree = "<group>"; };
+		00B3B7A813854F77000B5427 /* WMAppPL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMAppPL.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* TrendsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TrendsDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		1D3623250D0F684500981E51 /* TrendsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TrendsDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -74,13 +72,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				009F84EA134F0A74002A9A31 /* libsqlite3.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				000035E812B2289000DCD615 /* CoreTelephony.framework in Frameworks */,
 				000035EA12B2289700DCD615 /* SystemConfiguration.framework in Frameworks */,
-				00150E781378ABA5009BE263 /* libAppPL.a in Frameworks */,
+				00B3B7A913854F77000B5427 /* libAppPL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,9 +131,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				00150E771378ABA5009BE263 /* WMPerfLib.h */,
-				00150E761378ABA5009BE263 /* libAppPL.a */,
-				009F84E9134F0A74002A9A31 /* libsqlite3.dylib */,
+				00B3B7A713854F77000B5427 /* libAppPL.a */,
+				00B3B7A813854F77000B5427 /* WMAppPL.h */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -272,7 +268,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Classes\"",
-					"\"$(SRCROOT)/../../build/Debug-universal\"",
 				);
 				PRODUCT_NAME = TwitterTrends;
 				PROVISIONING_PROFILE = "F65DAFAD-F04D-44A5-BC46-4733F94BBE8B";
@@ -291,7 +286,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Classes\"",
-					"\"$(SRCROOT)/../../build/Debug-universal\"",
 				);
 				PRODUCT_NAME = TwitterTrends;
 			};
@@ -301,8 +295,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Alasdair Allan (U5K5JPRS76)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alasdair Allan (U5K5JPRS76)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -311,7 +305,7 @@
 					"-ObjC",
 				);
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "978DCFCA-CDBE-41F2-B6C4-B3201AF1AEBD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "054056B7-872B-47D2-B69E-32D2559AFAFD";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -324,6 +318,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 			};

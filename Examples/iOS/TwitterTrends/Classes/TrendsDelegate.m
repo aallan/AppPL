@@ -41,16 +41,53 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     
-	
-	[WMPerfLib sharedWMPerfLib].libraryDebug = YES;
-	[WMPerfLib sharedWMPerfLib].libraryOff = NO;
-	[WMPerfLib sharedWMPerfLib].waitForWiFi = YES;
-	[WMPerfLib sharedWMPerfLib].status;
+	WMAppPL *performanceLibrary = [WMAppPL sharedWMAppPL];
+	performanceLibrary.libraryDebug = YES;
+	performanceLibrary.libraryOff = NO;
+	performanceLibrary.waitForWiFi = YES;
+	performanceLibrary.status;
+    [[WMAppPL sharedWMAppPL] restoreQueue];
 	
     // Override point for customization after app launch    
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];
 }
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    /* Sent when the application is about to move from active to inactive state. */
+    NSLog(@"TrendsDelegate: applicationWillResignActive:");
+}
+
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    /* Use this method to release shared resources */
+    NSLog(@"TrendsDelegate: applicationDidEnterBackground:");
+    [[WMAppPL sharedWMAppPL] archiveQueue];
+
+}
+
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    /* Called as part of  transition from the background to the inactive state */
+    NSLog(@"TrendsDelegate: applicationWillEnterForeground:");
+    [[WMAppPL sharedWMAppPL] restoreQueue];
+   
+}
+
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    /* Restart any tasks that were paused (or not yet started) while the application was inactive. */
+    NSLog(@"TrendsDelegate: applicationDidBecomeActive:");
+}
+
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    /* Called when the application is about to terminate. */
+    NSLog(@"TrendsDelegate: applicationWillTerminate:");
+    [[WMAppPL sharedWMAppPL] archiveQueue];
+}
+
+
 
 
 - (void)dealloc {

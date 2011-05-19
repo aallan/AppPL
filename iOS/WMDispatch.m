@@ -25,7 +25,7 @@
 //  THE SOFTWARE.
 
 
-#import "WMPerfLib.h"
+#import "WMAppPL.h"
 
 #pragma mark -
 #pragma mark Private Interface
@@ -56,7 +56,7 @@
 	// the URL	
     NSString *url = @"http://rum-alpha.io.watchmouse.com/in/mobile/0.1/6/";
 	theURL = [[NSURL URLWithString:url] retain];
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMDispatch: dispatchResponse: theURL = %@", theURL );
 	}	
 	
@@ -87,36 +87,39 @@
 		batched = @"false";
 	}
 	
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMDispatch: dispatchResponseQueue: Items in queue = %d", [responseQueue sizeOfQueue] );
 	}	
 	
-	// TO DO: Limit to ~< 1MB max size, batch in chunks of 100 responses?
-	while ( [responseQueue sizeOfQueue] > 0 ) {
-		
-		WMResponse *response = [responseQueue popResponse];
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	// Limit to ~< 1MB max size, batch in chunks of 100 responses?
+    int max = 100;
+    int sent = 0;
+	while ( [responseQueue sizeOfQueue] > 0 && sent < max ) {
+		sent = sent + 1;
+        
+		analytics = [responseQueue popResponse];
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMDispatch: dispatchResponseQueue: Popped response from queue." );
 		}
 		
 		
 		NSNumber *result = [NSNumber numberWithInt:0];
-		if ( response.errorCode ) {
-			result = [NSNumber numberWithInt:response.errorCode];
+		if ( analytics.errorCode ) {
+			result = [NSNumber numberWithInt:analytics.errorCode];
 		}
 		NSString *error = @"";
-		if ( response.errorString != nil ) {
-			error = [response.errorString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+		if ( analytics.errorString != nil ) {
+			error = [analytics.errorString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 		}
 		
-		if ( response.mobileCountryCode == nil ) {
-			response.mobileCountryCode = @"null";
+		if ( analytics.mobileCountryCode == nil ) {
+			analytics.mobileCountryCode = @"null";
 		}
-		if ( response.mobileNetworkCode == nil ) {
-			response.mobileNetworkCode = @"null";
+		if ( analytics.mobileNetworkCode == nil ) {
+			analytics.mobileNetworkCode = @"null";
 		}
 		
-		int t_connect = (int)(1000.0f*(response.didReceiveResponse - response.initRequest));
+		int t_connect = (int)(1000.0f*(analytics.didReceiveResponse - analytics.initRequest));
 		NSString *t_connectString;
 		if ( t_connect >= 0 ) {
 			t_connectString = [NSString stringWithFormat:@"%d", t_connect];
@@ -124,7 +127,7 @@
 			t_connectString = @"null";
 		}
 		
-		int t_firstbyte = (int)(1000.0f*(response.didReceiveFirstData - response.initRequest));
+		int t_firstbyte = (int)(1000.0f*(analytics.didReceiveFirstData - analytics.initRequest));
 		NSString *t_firstbyteString;
 		if ( t_firstbyte >= 0 ) {
 			t_firstbyteString = [NSString stringWithFormat:@"%d", t_firstbyte];
@@ -132,7 +135,7 @@
 			t_firstbyteString = @"null";
 		}
 		
-		int t_done = (int)(1000.0f*(response.didFinishLoading - response.initRequest));
+		int t_done = (int)(1000.0f*(analytics.didFinishLoading - analytics.initRequest));
 		NSString *t_doneString;
 		if ( t_done >= 0 ) {
 			t_doneString = [NSString stringWithFormat:@"%d", t_done];
@@ -143,17 +146,17 @@
 		NSString *thisResult = [NSString stringWithFormat:@"{ \"result\": %@, \"error\": \"%@\", \"when\": \"%@\", \"url\": \"%@\", \"mcc\": \"%@\", \"mnc\": \"%@\", \"c_type\": \"%@\", \"t_connect\": %@, \"t_firstbyte\": %@, \"t_done\": %@, \"size\": %d  }", 
 					  result,
 					  error,
-					  [response.when stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-					  [[response.url absoluteString] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-					  [response.mobileCountryCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-					  [response.mobileNetworkCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-					  [response.connectionType stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [analytics.when stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [[analytics.url absoluteString] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [analytics.mobileCountryCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [analytics.mobileNetworkCode stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+					  [analytics.connectionType stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 					  t_connectString,
 					  t_firstbyteString,
 					  t_doneString,
-					  (int)response.bytesReceived];
+					  (int)analytics.bytesReceived];
 		
-		/*if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		/*if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMDispatch: dispatchResponseQueue: thisResult = %@", thisResult );
 		}*/		
 		jsonResults = [jsonResults stringByAppendingString:thisResult];
@@ -166,7 +169,7 @@
 	NSString *json = [NSString stringWithFormat:@"{\"app\": \"%@\",\"appversion\": \"%@\", \"key\": \"%@\", \"batched\": %@, \"device\": \"%@\", \"os_version\": \"%@\", \"model\": \"%@\", \"measurements\": [ %@ ], \"hash\": \"%@\" }",
 					  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"],
 					  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
-					  [[WMPerfLib sharedWMPerfLib] token],
+					  [[WMAppPL sharedWMAppPL] token],
 					  batched,
 					  [[UIDevice currentDevice].name stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 					  [[UIDevice currentDevice].systemVersion stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
@@ -215,43 +218,43 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {	
 
     NSString *content = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMDispatch: connection:didFailWithError: %@", error);
 	}
 
-	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushFailedWithError:)]) {	
-		[[WMPerfLib delegate] flushFailedWithError:error andResponse:content];
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: connection:didFailWithError: Called flushFailedWithError: delegate method.");
+	if ( [[WMAppPL delegate] respondsToSelector:@selector(flushFailedWithError:andResponse:)]) {	
+		[[WMAppPL delegate] flushFailedWithError:error andResponse:content];
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
+			NSLog(@"WMDispatch: connection:didFailWithError: Called flushFailedWithError:andResponse: delegate method.");
 		}
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: connection:didFailWithError: No response to flushFailedWithError: method in delegate.");
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
+			NSLog(@"WMDispatch: connection:didFailWithError: No response to flushFailedWithError:andResponse: method in delegate.");
 		}		
 	}
 	
 	// Re-add the response to the queue
     analytics.waitForNextFlush = YES;
-	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	WMAppPL *singleton = [WMAppPL sharedWMAppPL];
 	[singleton.queue addResponse:analytics];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 		
  	NSString *content = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMDispatch: connectionDidFinishLoading: content[%d] = '%@'", [responseData length], content );
 		NSLog(@"WMDispatch: connectionDidFinishLoading: Done");
 	}
 
-	if ( [[WMPerfLib delegate] respondsToSelector:@selector(flushedResponseQueue:)]) {	
-		[[WMPerfLib delegate] flushCompletedWithResponse:content];
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: connectionDidFinishLoading: Called flushedResponseQueue: delegate method.");
+	if ( [[WMAppPL delegate] respondsToSelector:@selector(flushCompletedWithResponse:)]) {	
+		[[WMAppPL delegate] flushCompletedWithResponse:content];
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
+			NSLog(@"WMDispatch: connectionDidFinishLoading: Called flushCompletedWithResponse: delegate method.");
 		}
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-			NSLog(@"WMDispatch: connectionDidFinishLoading: No response to flushedResponseQueue: method in delegate.");
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
+			NSLog(@"WMDispatch: connectionDidFinishLoading: No response to flushCompletedWithResponse: method in delegate.");
 		}		
 	}
 }

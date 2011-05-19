@@ -24,7 +24,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "WMPerfLib.h"
+#import "WMAppPL.h"
 
 @implementation WMURLConnection
 
@@ -39,7 +39,7 @@
 	responseData = [[NSMutableData data] retain];
 	
 	if( self = [super initWithRequest:request delegate:self] ) {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: initWithRequest:delegate: initRequest at %f", analytics.initRequest);
 		}
 		[delegate retain];
@@ -75,14 +75,14 @@
 	
 	/* Sent as the body (message data) of a request is transmitted (such as in an http POST request). This method provides an estimate of the progress of a URL upload. The value of totalBytesExpectedToWrite may change during the upload if the request needs to be retransmitted due to a lost connection or an authentication challenge from the server. */
 	 
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:");
 	}	
 	
 	if ( [_myDelegate respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
 		[_myDelegate connection:connection didSendBodyData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite: Assigned delegate doesn't respond to selector");
 		}
 		[super connection:connection didSendBodyData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
@@ -92,7 +92,7 @@
 }
 
 - (NSCachedURLResponse *)connection:(WMURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connection:willCacheResponse:");
 	}	
 	
@@ -100,7 +100,7 @@
 	if ( [_myDelegate respondsToSelector:@selector(connection:willCacheResponse:)]) {
 		returned = [_myDelegate connection:connection willCacheResponse:cachedResponse];
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:willCacheResponse: Assigned delegate doesn't respond to selector");
 		}
 		//returned = [super connection:connection willCacheResponse:cachedResponse];
@@ -113,7 +113,7 @@
 
 
 - (BOOL)connection:(WMURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connection:canAuthenticateAgainstProtectionSpace:");
 	}	
 	
@@ -121,7 +121,7 @@
 	if ( [_myDelegate respondsToSelector:@selector(connection:canAuthenticateAgainstProtectionSpace:)]) {
 		returned = [_myDelegate connection:connection canAuthenticateAgainstProtectionSpace:protectionSpace];
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:canAuthenticateAgainstProtectionSpace: Assigned delegate doesn't respond to selector");
 		}
 		if ([protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodClientCertificate] ||
@@ -135,14 +135,14 @@
 }
 
 - (void)connection:(WMURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connection:didCancelAuthenticationChallenge:");
 	}	
 
 	if ( [_myDelegate respondsToSelector:@selector(connection:didCancelAuthenticationChallenge:)]) {
 		[_myDelegate connection:connection didCancelAuthenticationChallenge:challenge];
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:didCancelAuthenticationChallenge: Assigned delegate doesn't respond to selector");
 		}
 		//[super connection:connection didCancelAuthenticationChallenge:challenge];
@@ -151,14 +151,14 @@
 }
 
 - (void)connection:(WMURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connection:didReceiveAuthenticationChallenge:");
 	}	
 	
 	if ( [_myDelegate respondsToSelector:@selector(connection:didReceiveAuthenticationChallenge:)]) {
 		[_myDelegate connection:connection didReceiveAuthenticationChallenge:challenge];
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:didReceiveAuthenticationChallenge: Assigned delegate doesn't respond to selector");
 		}
 		[super connection:connection didReceiveAuthenticationChallenge:challenge];
@@ -166,7 +166,7 @@
 }
 
 - (BOOL)connectionShouldUseCredentialStorage:(WMURLConnection *)connection {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connectionShouldUseCredentialStorage:");
 	}	
 	
@@ -174,7 +174,7 @@
 	if ( [_myDelegate respondsToSelector:@selector(connectionShouldUseCredentialStorage:)]) {
 		returned = [_myDelegate connectionShouldUseCredentialStorage:connection];
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connectionShouldUseCredentialStorage: Assigned delegate doesn't respond to selector");
 		}
 		//returned = [super connectionShouldUseCredentialStorage:connection];
@@ -185,7 +185,7 @@
 
 
 - (NSURLRequest *)connection:(WMURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connection:willSendRequest:redirectResponse:");
 	}
 	
@@ -193,7 +193,7 @@
 	if ( [_myDelegate respondsToSelector:@selector(connection:willSendRequest:redirectResponse:)]) {
 		returned = [_myDelegate connection:connection willSendRequest:request redirectResponse:redirectResponse];
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:willSendRequest:redirectResponse: Assigned delegate doesn't respond to selector");
 		}
 		//returned = [super connection:connection willSendRequest:request redirectResponse:redirectResponse];
@@ -206,7 +206,7 @@
 - (void)connection:(WMURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 
 	analytics.didReceiveResponse = CFAbsoluteTimeGetCurrent(); 
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connecton:didReceiveResponse: didReceiveResponse at %f", analytics.didReceiveResponse);
 	}
 	
@@ -214,7 +214,7 @@
 		[_myDelegate connection:connection didReceiveResponse:response];
  
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connecton:didReceiveResponse: Assigned delegate doesn't respond to selector");	
 		}
 		//[super connection:connection didReceiveResponse:response];
@@ -224,26 +224,26 @@
 }
 
 - (void)connection:(WMURLConnection *)connection didReceiveData:(NSData *)data {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connection:didReceiveData:");
 	}
 	
 	if ( firstData ) {
 		analytics.didReceiveFirstData = CFAbsoluteTimeGetCurrent(); 
 		firstData = NO;
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		    NSLog(@"WMURLConnection: connection:didReceiveData: firstData at %f", analytics.didReceiveFirstData);
 		}	
 	} 
 	analytics.bytesReceived = analytics.bytesReceived + [data length];
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMURLConnection: connection:didReceiveData: bytesReceived = %d", analytics.bytesReceived);
 	}	
 	
 	if( [_myDelegate respondsToSelector:@selector(connection:didReceiveData:)] ) {
 		[_myDelegate connection:connection didReceiveData:data];
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:didReceiveData: Assigned delegate doesn't respond to selector");
 		}
 		//[super connection:connection didReceiveData:data];
@@ -253,7 +253,7 @@
 }
 
 - (void)connection:(WMURLConnection *)connection didFailWithError:(NSError *)error {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {		
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {		
 		NSDictionary *userInfo = error.userInfo;
 		NSArray *keys = userInfo.allKeys;
 		NSArray *values = userInfo.allValues;		
@@ -271,13 +271,13 @@
 	if( [_myDelegate respondsToSelector:@selector(connection:didFailWithError:)] ) {
 		[_myDelegate connection:connection didFailWithError:error];		
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:didFailWithError: Assigned delegate doesn't respond to selector");
 		}
 		//[super connection:connection didFailWithError:error];
 	}
 		
-	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	WMAppPL *singleton = [WMAppPL sharedWMAppPL];
 	if ( !singleton.libraryOff ) {
 		if (singleton.libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:didFailWithError: Adding response to queue" );
@@ -293,14 +293,14 @@
 - (void)connectionDidFinishLoading:(WMURLConnection *)connection {
 
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog( @"WMURLConnection: connection:didFinishLoading: didFinishLoading at %f", analytics.didFinishLoading);
 	}
 		 	
 	if( [_myDelegate respondsToSelector:@selector(connectionDidFinishLoading:)] ) {
 		[_myDelegate connectionDidFinishLoading: connection];	
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:didFinishLoading: Assigned delegate doesn't respond to selector");
 			NSString *content = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding];
 			NSLog(@"WMURLConnection: connection:didFinishLoading: content = %@", content);
@@ -310,7 +310,7 @@
 
 	}
 	
-	WMPerfLib *singleton = [WMPerfLib sharedWMPerfLib];
+	WMAppPL *singleton = [WMAppPL sharedWMAppPL];
 	if ( !singleton.libraryOff ) {
 		if (singleton.libraryDebug ) {
 			NSLog(@"WMURLConnection: connection:didFinishLoading: Adding response to queue" );

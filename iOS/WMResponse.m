@@ -24,7 +24,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "WMPerfLib.h"
+#import "WMAppPL.h"
 
 @implementation WMResponse
 
@@ -91,77 +91,60 @@
 - (id)initWithCoder:(NSCoder *)decoder {
 	if ((self = [super init])) {
         self.url = [decoder decodeObjectForKey:@"url"];
-        self.uniqueIdentifier = [decoder decodeObjectForKey:@""];
-        self.name = [decoder decodeObjectForKey:@""];
-        self.systemName = [decoder decodeObjectForKey:@""];
-        self.systemVersion = [decoder decodeObjectForKey:@""];
-        self.model = [decoder decodeObjectForKey:@""];
-        self.localizedModel = [decoder decodeObjectForKey:@""];
-        self.carrierName = [decoder decodeObjectForKey:@""];
-        self.isoCountryCode = [decoder decodeObjectForKey:@""];
-        self.mobileCountryCode = [decoder decodeObjectForKey:@""];
-        self.mobileNetworkCode = [decoder decodeObjectForKey:@""];
-        self.ipAddress = [decoder decodeObjectForKey:@""];
-        self.connectionType = [decoder decodeObjectForKey:@""];
-        self.when = [decoder decodeObjectForKey:@""];
-        self.initRequest = [decoder decodeDoubleForKey:@""];
-        self.didReceiveResponse = [decoder decodeDoubleForKey:@""];
-        self.didReceiveFirstData = [decoder decodeDoubleForKey:@""];
-        self.didFinishLoading = [decoder decodeDoubleForKey:@""];
-        self.bytesReceived = [decoder decodeIntForKey:@""];
-        self.error = [decoder decodeBoolForKey:@""];
-        self.errorString = [decoder decodeObjectForKey:@""];
-        self.errorCode = [decoder decodeIntForKey:@""];
-        self.waitForNextFlush = [decoder decodeBoolForKey:@""];
+        self.uniqueIdentifier = [decoder decodeObjectForKey:@"uniqueIdentifier"];
+        self.name = [decoder decodeObjectForKey:@"name"];
+        self.systemName = [decoder decodeObjectForKey:@"systemName"];
+        self.systemVersion = [decoder decodeObjectForKey:@"systemVersion"];
+        self.model = [decoder decodeObjectForKey:@"model"];
+        self.localizedModel = [decoder decodeObjectForKey:@"localizedModel"];
+        self.carrierName = [decoder decodeObjectForKey:@"carrierName"];
+        self.isoCountryCode = [decoder decodeObjectForKey:@"isoCountryCode"];
+        self.mobileCountryCode = [decoder decodeObjectForKey:@"mobileCountryCode"];
+        self.mobileNetworkCode = [decoder decodeObjectForKey:@"mobileNetworkCode"];
+        self.ipAddress = [decoder decodeObjectForKey:@"ipAddress"];
+        self.connectionType = [decoder decodeObjectForKey:@"connectionType"];
+        self.when = [decoder decodeObjectForKey:@"when"];
+        self.initRequest = [decoder decodeDoubleForKey:@"initRequest"];
+        self.didReceiveResponse = [decoder decodeDoubleForKey:@"didReceiveResponse"];
+        self.didReceiveFirstData = [decoder decodeDoubleForKey:@"didReceiveFirstData"];
+        self.didFinishLoading = [decoder decodeDoubleForKey:@"didFinishLoading"];
+        self.bytesReceived = [decoder decodeIntForKey:@"bytesReceived"];
+        self.error = [decoder decodeBoolForKey:@"error"];
+        self.errorString = [decoder decodeObjectForKey:@"errorString"];
+        self.errorCode = [decoder decodeIntForKey:@"errorCode"];
+        self.waitForNextFlush = [decoder decodeBoolForKey:@"waitForNextFlush"];
 	}
 	return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:self.url forKey:@""];
-    [encoder encodeObject:self.uniqueIdentifier forKey:@""];
-    [encoder encodeObject:self.name forKey:@""];
-    [encoder encodeObject:self.systemName forKey:@""];
-    [encoder encodeObject:self.systemVersion forKey:@""];
-    [encoder encodeObject:self.model forKey:@""];
-    [encoder encodeObject:self.localizedModel forKey:@""];
-    [encoder encodeObject:self.carrierName forKey:@""];
-    [encoder encodeObject:self.isoCountryCode forKey:@""];
-    [encoder encodeObject:self.mobileCountryCode forKey:@""];
-    [encoder encodeObject:self.mobileNetworkCode forKey:@""];
-    [encoder encodeObject:self.ipAddress forKey:@""];
-    [encoder encodeObject:self.connectionType forKey:@""];
-    [encoder encodeObject:self.when forKey:@""];
-    [encoder encodeDouble:self.initRequest forKey:@""];
-    [encoder encodeDouble:self.didReceiveResponse forKey:@""];
-    [encoder encodeDouble:self.didReceiveFirstData forKey:@""];
-    [encoder encodeDouble:self.didFinishLoading forKey:@""];
-    [encoder encodeInt:self.bytesReceived forKey:@""];
-    [encoder encodeBool:self.error forKey:@""];
-    [encoder encodeObject:self.errorString forKey:@""];
-    [encoder encodeInt:self.errorCode forKey:@""];
-    [encoder encodeBool:self.waitForNextFlush forKey:@""];    
+    [encoder encodeObject:self.url forKey:@"url"];
+    [encoder encodeObject:self.uniqueIdentifier forKey:@"uniqueIdentifier"];
+    [encoder encodeObject:self.name forKey:@"name"];
+    [encoder encodeObject:self.systemName forKey:@"systemName"];
+    [encoder encodeObject:self.systemVersion forKey:@"systemVersion"];
+    [encoder encodeObject:self.model forKey:@"model"];
+    [encoder encodeObject:self.localizedModel forKey:@"localizedModel"];
+    [encoder encodeObject:self.carrierName forKey:@"carrierName"];
+    [encoder encodeObject:self.isoCountryCode forKey:@"isoCountryCode"];
+    [encoder encodeObject:self.mobileCountryCode forKey:@"mobileCountryCode"];
+    [encoder encodeObject:self.mobileNetworkCode forKey:@"mobileNetworkCode"];
+    [encoder encodeObject:self.ipAddress forKey:@"ipAddress"];
+    [encoder encodeObject:self.connectionType forKey:@"connectionType"];
+    [encoder encodeObject:self.when forKey:@"when"];
+    [encoder encodeDouble:self.initRequest forKey:@"initRequest"];
+    [encoder encodeDouble:self.didReceiveResponse forKey:@"didReceiveResponse"];
+    [encoder encodeDouble:self.didReceiveFirstData forKey:@"didReceiveFirstData"];
+    [encoder encodeDouble:self.didFinishLoading forKey:@"didFinishLoading"];
+    [encoder encodeInt:self.bytesReceived forKey:@"bytesReceived"];
+    [encoder encodeBool:self.error forKey:@"error"];
+    [encoder encodeObject:self.errorString forKey:@"errorString"];
+    [encoder encodeInt:self.errorCode forKey:@"errorCode"];
+    [encoder encodeBool:self.waitForNextFlush forKey:@"waitForNextFlush"];    
 }
 
 - (void)dealloc {
     [super dealloc];
-	[url release];
-
-	[uniqueIdentifier release];
-	[name release];
-	[systemName release];
-	[systemVersion release]; 
-	[model release];
-	[localizedModel release];
-
-	[carrierName release];
-	[isoCountryCode release];
-	[mobileCountryCode release];
-	[mobileNetworkCode release];
-
-	[ipAddress release];
-
-	[errorString release];
 }
 
 @end

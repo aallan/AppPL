@@ -24,7 +24,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "WMPerfLib.h"
+#import "WMAppPL.h"
 
 
 @implementation WMUtil
@@ -78,7 +78,7 @@
 			if(temp_addr->ifa_addr->sa_family == AF_INET)
 			{
 				
-				if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+				if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 					NSLog(@"WMUtil: getIPAddress: ifa_name = %@", [NSString stringWithUTF8String:temp_addr->ifa_name] );
 				}
 				
@@ -88,14 +88,14 @@
 				{
 					// Get NSString from C String
 					address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-					if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+					if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 						NSLog(@"WMUtil: getIPAddress: IP (via WiFi) = %@", address );
 					}	
 					break;
 				} else if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"pdp_ip0"]) {
 					// Get NSString from C String
 					address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-					if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+					if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 						NSLog(@"WMUtil: getIPAddress: IP (via WWAN) = %@", address );
 					}
 					break;
@@ -130,13 +130,13 @@
 	CFRelease(defaultRouteReachability);
 		
 	if (!didRetrieveFlags) {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMUtil: connectionType: Could not recover network reachability flags");
 		}
 		return type;
 	}
 	
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMUtil: connectionType: %c%c %c%c%c%c%c%c%c\n",
 		  (flags & kSCNetworkReachabilityFlagsIsWWAN)				? 'W' : '-',
 		  (flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
@@ -156,17 +156,17 @@
 	
 	if( isReachable && isWWAN ) {
 		type = @"wwan";
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog( @"WMUtil: connectionType: Reachable via WWAN" );
 		}
 	} else if ( isReachable && !isWWAN ) {
 		type = @"wifi";
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog( @"WMUtil: connectionType: Reachable via WiFi" );
 		}
 	} else {
 		type = @"other";
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog( @"WMUtil: connectionType: Needs connection" );
 		}
 	}
@@ -221,7 +221,7 @@
 
 +(NSString *)documentsDirectoryPath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+    if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
         NSLog( @"WMUtil: documentsDirectoryPath: path = %@", [paths objectAtIndex:0] );
     }
     return [paths objectAtIndex:0];

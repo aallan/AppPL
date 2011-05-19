@@ -48,7 +48,7 @@
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	TwitterTrends *trends = [[TwitterTrends alloc] init];
 	[trends queryServiceWithParent:self];
-	[WMPerfLib setDelegate:self];
+	[WMAppPL setDelegate:self];
 	
     [super viewDidLoad];
 }
@@ -94,9 +94,15 @@
 	
 }
 
--(void)flushedResponseQueue:(NSString *)jsonString {
+-(void)flushCompletedWithResponse:(NSString *)json {
 	
-	NSLog(@"RootController: flushedResponseQueue: Delegate Callback, jsonString = %@", jsonString);
+	NSLog(@"RootController: flushedResponseQueue: Delegate Callback, jsonString = %@", json);
 }
+
+- (void)flushFailedWithError:(NSError *)error andResponse:(NSString *)json {
+    NSLog(@"RootController: flushFailedWithError:andResponse: Delegate Callback, jsonString = %@", json);
+
+}
+
 
 @end

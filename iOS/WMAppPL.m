@@ -1,5 +1,5 @@
 //
-//  WMPerfLib.m
+//  WMAppPL.m
 //  App Performance Library
 //
 //  Created by Alasdair Allan on 01/12/2010.
@@ -24,11 +24,11 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "WMPerfLib.h"
+#import "WMAppPL.h"
 
-@implementation WMPerfLib
+@implementation WMAppPL
 
-static __weak id<WMPerfLibDelegate> _delegate;
+static __weak id<WMAppPLDelegate> _delegate;
 
 @synthesize libraryDebug;
 @synthesize libraryOff;
@@ -37,7 +37,7 @@ static __weak id<WMPerfLibDelegate> _delegate;
 @synthesize queue;
 @synthesize token;
 
-WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
+WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMAppPL);
 
 - (id)init {
 	
@@ -60,7 +60,7 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
 - (void) status {
 	
 	if ( self.libraryDebug ) {
-		NSLog( @"WMPerfLib Version %f", WM_VERSION );
+		NSLog( @"WMAppPL Version %f", WM_VERSION );
 		NSLog( @"  debug = %d, on = %d, wait = %d", 
 			      self.libraryDebug, !self.libraryOff, self.waitForWiFi );
 		NSLog( @"  developer token = %@", self.token );
@@ -71,8 +71,8 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
 // http://cocoadevcentral.com/articles/000084.php
 - (void)archiveQueue {
 	
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMPerfLib: archiveQueue: Saving queue of %d items to Document Directory.", [self.queue sizeOfQueue]);
+	if ( self.libraryDebug ) {
+		NSLog(@"WMAppPL: archiveQueue: Saving queue of %d items to Document Directory.", [self.queue sizeOfQueue]);
 
 	}
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.queue];
@@ -80,8 +80,8 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager createFileAtPath:file contents:data attributes:nil];
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMPerfLib: archiveQueue: file = %@", file);
+	if ( self.libraryDebug ) {
+		NSLog(@"WMAppPL: archiveQueue: file = %@", file);
         
 	}
 	
@@ -89,22 +89,36 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMPerfLib);
 
 - (void)restoreQueue {
  	
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMResponseQueue: restoreQueue: Restoring queue from Document Directory.");
+	if ( self.libraryDebug ) {
+		NSLog(@"WMAppPL: restoreQueue: Restoring queue from Document Directory.");
 	}   
     
     NSString *file = [[WMUtil documentsDirectoryPath] stringByAppendingPathComponent: @"queue.plist"]; 
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSData *data = [fileManager contentsAtPath:file];
-    self.queue = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    if ( [data length] > 0 ) {
+        self.queue = nil;
+        self.queue = (WMResponseQueue *)[NSKeyedUnarchiver unarchiveObjectWithData:data];
+        if ( self.libraryDebug ) {
+            NSLog(@"WMAppPL: restoreQueue: Restored %d items to queue.", [self.queue sizeOfQueue]);
+        } 
+    } else {
+        if ( self.libraryDebug ) {
+            NSLog(@"WMAppPL: restoreQueue: No queue to restore.");
+        }        
+    }
 
-    if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMResponseQueue: restoreQueue: Restored %d items to queue.", [self.queue sizeOfQueue]);
-	} 
     
 }
 
-
+- (void)flushQueue {
+	if ( self.libraryDebug ) {
+		NSLog(@"WMAppPL: flushQueue: Flushing response queue to acceptor");
+	}
+	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
+	[dispatch dispatchResponseQueue:self.queue];	
+	
+}
 
 + (id)delegate {
 	

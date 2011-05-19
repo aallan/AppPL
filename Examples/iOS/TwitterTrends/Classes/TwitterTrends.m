@@ -71,10 +71,20 @@
 - (void)connectionDidFinishLoading:(WMURLConnection *)connection {
 	
 	NSString *content = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding];
-	
+	NSLog( @"content = %@", content );
+    [content release];
+    
 	SBJSON *parser = [[SBJSON alloc] init];
 	NSDictionary *json = [parser objectWithString:content];
-	NSArray *trends = [json objectForKey:@"trends"];
+	
+    NSString *errorString = [json objectForKey:@"error"];
+    if ( [errorString length] > 0 ) {
+        UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil]; 
+        [errorView show]; 
+        [errorView autorelease];
+    }
+    
+    NSArray *trends = [json objectForKey:@"trends"];
 	
 	
 	for (NSDictionary *trend in trends) {
@@ -84,7 +94,6 @@
 	[parser release];
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	[viewController.serviceView reloadData];
-	
 }
 
 -(void)dealloc {

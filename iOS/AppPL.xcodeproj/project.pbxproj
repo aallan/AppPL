@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		00384B2412B0D982007100C1 /* WMDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 00384B2212B0D982007100C1 /* WMDispatch.m */; };
 		00384D8412B17322007100C1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00384D8312B17322007100C1 /* SystemConfiguration.framework */; };
-		007E93B912AFC3DD00B1E8CA /* WMPerfLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 007E93AC12AFC3DD00B1E8CA /* WMPerfLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		007E93BA12AFC3DD00B1E8CA /* WMPerfLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93AD12AFC3DD00B1E8CA /* WMPerfLib.m */; };
+		007E93B912AFC3DD00B1E8CA /* WMAppPL.h in Headers */ = {isa = PBXBuildFile; fileRef = 007E93AC12AFC3DD00B1E8CA /* WMAppPL.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		007E93BA12AFC3DD00B1E8CA /* WMAppPL.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93AD12AFC3DD00B1E8CA /* WMAppPL.m */; };
 		007E93BC12AFC3DD00B1E8CA /* WMResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93AF12AFC3DD00B1E8CA /* WMResponse.m */; };
 		007E93BE12AFC3DD00B1E8CA /* WMResponseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93B112AFC3DD00B1E8CA /* WMResponseQueue.m */; };
 		007E93C112AFC3DD00B1E8CA /* WMURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 007E93B412AFC3DD00B1E8CA /* WMURLConnection.m */; };
@@ -23,11 +23,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		00384B2212B0D982007100C1 /* WMDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMDispatch.m; sourceTree = "<group>"; };
+		00384B2212B0D982007100C1 /* WMDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WMDispatch.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		00384D8312B17322007100C1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		007E93AC12AFC3DD00B1E8CA /* WMPerfLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPerfLib.h; sourceTree = "<group>"; };
-		007E93AD12AFC3DD00B1E8CA /* WMPerfLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMPerfLib.m; sourceTree = "<group>"; };
-		007E93AF12AFC3DD00B1E8CA /* WMResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMResponse.m; sourceTree = "<group>"; };
+		007E93AC12AFC3DD00B1E8CA /* WMAppPL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WMAppPL.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		007E93AD12AFC3DD00B1E8CA /* WMAppPL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WMAppPL.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		007E93AF12AFC3DD00B1E8CA /* WMResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WMResponse.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		007E93B112AFC3DD00B1E8CA /* WMResponseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMResponseQueue.m; sourceTree = "<group>"; };
 		007E93B412AFC3DD00B1E8CA /* WMURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMURLConnection.m; sourceTree = "<group>"; };
 		007E93B612AFC3DD00B1E8CA /* WMUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMUtil.m; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 		007E93ED12AFCB8100B1E8CA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				007E93AC12AFC3DD00B1E8CA /* WMPerfLib.h */,
+				007E93AC12AFC3DD00B1E8CA /* WMAppPL.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -96,7 +96,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				007E93AD12AFC3DD00B1E8CA /* WMPerfLib.m */,
+				007E93AD12AFC3DD00B1E8CA /* WMAppPL.m */,
 				007E93AF12AFC3DD00B1E8CA /* WMResponse.m */,
 				007E93B112AFC3DD00B1E8CA /* WMResponseQueue.m */,
 				00384B2212B0D982007100C1 /* WMDispatch.m */,
@@ -123,7 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA747D9F0F9514B9006C5449 /* AppPL_Prefix.pch in Headers */,
-				007E93B912AFC3DD00B1E8CA /* WMPerfLib.h in Headers */,
+				007E93B912AFC3DD00B1E8CA /* WMAppPL.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +194,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				007E93BA12AFC3DD00B1E8CA /* WMPerfLib.m in Sources */,
+				007E93BA12AFC3DD00B1E8CA /* WMAppPL.m in Sources */,
 				007E93BC12AFC3DD00B1E8CA /* WMResponse.m in Sources */,
 				007E93BE12AFC3DD00B1E8CA /* WMResponseQueue.m in Sources */,
 				007E93C112AFC3DD00B1E8CA /* WMURLConnection.m in Sources */,

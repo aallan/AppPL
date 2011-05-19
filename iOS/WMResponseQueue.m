@@ -24,7 +24,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "WMPerfLib.h"
+#import "WMAppPL.h"
 
 
 @implementation WMResponseQueue
@@ -46,7 +46,7 @@
 
 - (void)addResponse:(WMResponse *)response {
 
-    if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+    if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMResponseQueue: addResponse: Adding response to queue");
 	}
     if ( response.waitForNextFlush == YES ) {
@@ -54,55 +54,60 @@
         
         // If we've just re-added a failed response to the queue, wait for next time
         // before attempting to flush it to the acceptor. Hopefully stop runaway loops.
-        if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+        if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
             NSLog(@"WMResponseQueue: addResponse: Queued response for future delivery");
             
         }
         
         // Add the passed response to the queue
         [self.queue addObject:response];
+        if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
+            NSLog(@"WMResponseQueue: addResponse: Items in queue = %d", [self.queue count]);
+            
+        }
         return;
     }
     
     // Add the passed response to the queue
 	[self.queue addObject:response];       
               
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 		NSLog(@"WMResponseQueue: addResponse: Attempting to flush response to acceptor");
 	}
 	
-	if ( [WMPerfLib sharedWMPerfLib].waitForWiFi ) {
+	if ( [WMAppPL sharedWMAppPL].waitForWiFi ) {
 
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMResponseQueue: addResponse: waitForWiFi = %d", 
-				  [WMPerfLib sharedWMPerfLib].waitForWiFi );
+				  [WMAppPL sharedWMAppPL].waitForWiFi );
 		}
 		
 		if ( [[WMUtil connectionType] isEqualToString:@"wifi"] ) {
 			WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
 			[dispatch dispatchResponseQueue:self];		
-			if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 				NSLog(@"WMResponseQueue: addResponse: Flushed response to acceptor"); 
 			}	  
 		} else {
-			if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 				NSLog(@"WMResponseQueue: addResponse: Queued response for future delivery"); 
+                NSLog(@"WMResponseQueue: addResponse: Items in queue = %d", [self.queue count]);
 			}	 			
 		}
 	} else {
-		if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+		if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 			NSLog(@"WMResponseQueue: addResponse: waitForWiFi = %d, ctype = %@", 
-				  [WMPerfLib sharedWMPerfLib].waitForWiFi,[WMUtil connectionType]);
+				  [WMAppPL sharedWMAppPL].waitForWiFi,[WMUtil connectionType]);
 		}	
 		if ([[WMUtil connectionType] isEqualToString:@"wifi"] ||
 			[[WMUtil connectionType] isEqualToString:@"wwan"] ) {
 			WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
 			[dispatch dispatchResponseQueue:self];			
-			if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 				NSLog(@"WMResponseQueue: addResponse: Flushed response to acceptor"); 
 			}	  
 		} else {
-			if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
+			if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
 				NSLog(@"WMResponseQueue: addResponse: No Internet connection. Queued."); 
 			}	  
 			
@@ -120,7 +125,8 @@
 	
 	WMResponse *response = nil;
 	if( self.queue.count >= 1 ) {
-		response = 	[self.queue objectAtIndex:0];
+		response = 	(WMResponse *)[self.queue objectAtIndex:0];
+        [response retain];
 		[self.queue removeObjectAtIndex:0];
 	}
     return response;
@@ -129,15 +135,6 @@
 
 - (int)sizeOfQueue {
 	return [self.queue count];
-	
-}
-
-- (void)flushQueue {
-	if ( [WMPerfLib sharedWMPerfLib].libraryDebug ) {
-		NSLog(@"WMResponseQueue: flushQueue: Flushing response queue to acceptor");
-	}
-	WMDispatch *dispatch = [[[WMDispatch alloc] init] autorelease];
-	[dispatch dispatchResponseQueue:self];	
 	
 }
 

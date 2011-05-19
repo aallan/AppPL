@@ -32,9 +32,9 @@
 
 
 #import <UIKit/UIKit.h>
-#import "WMPerfLib.h"
+#import "WMAppPL.h"
 
-@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, WMPerfLibDelegate> {
+@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, WMAppPLDelegate> {
 	UITableView *serviceView;
 	NSMutableArray *names;
 	NSMutableArray *urls;
