@@ -49,11 +49,12 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; 
     BOOL disabled = [defaults boolForKey:@"disabled_preference"]; 
     NSLog(@"WebTestDelegate: application:didFinishLaunchingWithOptions: AppPL disabled in preferences = %d", disabled);
-	performanceLibrary.libraryOff = disabled;
+	performanceLibrary.libraryOff = disabled;	
+    performanceLibrary.token = @"XXXXXXXXXXXX";
     
 	performanceLibrary.waitForWiFi = YES;
 	[performanceLibrary status];
-    [[WMAppPL sharedWMAppPL] restoreQueue];
+    [performanceLibrary restoreQueue];
     
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
