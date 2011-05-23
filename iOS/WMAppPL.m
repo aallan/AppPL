@@ -60,10 +60,12 @@ WM_SYNTHESIZE_SINGLETON_FOR_CLASS(WMAppPL);
 - (void) status {
 	
 	if ( self.libraryDebug ) {
-		NSLog( @"WMAppPL Version %f", WM_VERSION );
-		NSLog( @"  debug = %d, on = %d, wait = %d", 
-			      self.libraryDebug, !self.libraryOff, self.waitForWiFi );
-		NSLog( @"  developer token = %@", self.token );
+		NSLog( @"WMAppPL: status:");
+        NSLog( @"  version = %@", WM_VERSION );
+		NSLog( @"  on = %d", !self.libraryOff );
+		NSLog( @"  debug = %d", self.libraryDebug );
+		NSLog( @"  wait = %d", self.waitForWiFi );
+		NSLog( @"  token = %@", self.token );
 	}
 	
 }

@@ -115,8 +115,8 @@
 	analytics.didFinishLoading = CFAbsoluteTimeGetCurrent(); 
 	analytics.bytesReceived = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.outerHTML"] length];
 	if ( [WMAppPL sharedWMAppPL].libraryDebug ) {
-		NSLog(@"WMWebView: webViewDiDFinishLoad: didFinishLoading at %f", analytics.didFinishLoading);
-		NSLog(@"WMWebView: webViewDiDFinishLoad: document.body.outerHTML length = %d", analytics.bytesReceived);
+		NSLog(@"WMWebView: webViewDidFinishLoad: didFinishLoading at %f", analytics.didFinishLoading);
+		NSLog(@"WMWebView: webViewDidFinishLoad: document.body.outerHTML length = %d", analytics.bytesReceived);
 	}	
 	if( [_myDelegate respondsToSelector:@selector(webViewDidStartLoad:)] ) {
 		[_myDelegate webViewDidFinishLoad:wv];
@@ -125,12 +125,12 @@
 	WMAppPL *singleton = [WMAppPL sharedWMAppPL];
 	if ( !singleton.libraryOff ) {
 		if (singleton.libraryDebug ) {
-			NSLog(@"WMURLConnection: webViewDiDFinishLoad: Adding response to queue" );
+			NSLog(@"WMURLConnection: webViewDidFinishLoad: Adding response to queue" );
 		}
 		[singleton.queue addResponse:analytics];
 	} else {
 		if (singleton.libraryDebug ) {
-			NSLog(@"WMURLConnection: webViewDiDFinishLoad: LIBRARY OFF - NO DISPATCH" );
+			NSLog(@"WMURLConnection: webViewDidFinishLoad: LIBRARY OFF - NO DISPATCH" );
 		}
 	}
 }

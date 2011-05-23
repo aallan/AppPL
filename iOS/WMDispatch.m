@@ -232,11 +232,15 @@
 			NSLog(@"WMDispatch: connection:didFailWithError: No response to flushFailedWithError:andResponse: method in delegate.");
 		}		
 	}
-	
+	[content release];
+    
 	// Re-add the response to the queue
     analytics.waitForNextFlush = YES;
 	WMAppPL *singleton = [WMAppPL sharedWMAppPL];
 	[singleton.queue addResponse:analytics];
+ 
+    // release the current analytics object
+    [analytics release];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -257,6 +261,10 @@
 			NSLog(@"WMDispatch: connectionDidFinishLoading: No response to flushCompletedWithResponse: method in delegate.");
 		}		
 	}
+    [content release];
+    
+    // release the current analytics object
+    [analytics release];
 }
 
 - (void)dealloc {

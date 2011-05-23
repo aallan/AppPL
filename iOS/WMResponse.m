@@ -144,6 +144,22 @@
 }
 
 - (void)dealloc {
+    [url release];
+    [uniqueIdentifier release];
+    [name release];
+    [systemName release];
+    [systemVersion release];
+    [model release];
+    [localizedModel release];
+    [carrierName release];
+    [isoCountryCode release];
+    [mobileCountryCode release];
+    [mobileNetworkCode release];
+    [ipAddress release];
+    [connectionType release];
+    [when release];
+    [errorString release];
+    
     [super dealloc];
 }
 
