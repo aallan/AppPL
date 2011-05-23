@@ -17,10 +17,11 @@
 		00947DA81389E1D2007A8BFD /* WebTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00947DA71389E1D2007A8BFD /* WebTestViewController.m */; };
 		00947DAB1389E1D2007A8BFD /* WebTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00947DA91389E1D2007A8BFD /* WebTestViewController.xib */; };
 		00947DC81389EC53007A8BFD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00947DC71389EC53007A8BFD /* SystemConfiguration.framework */; };
-		00947DE11389F00E007A8BFD /* libAppPL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00947DDF1389F00E007A8BFD /* libAppPL.a */; };
 		00947DE31389F1E7007A8BFD /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00947DE21389F1E7007A8BFD /* WebView.xib */; };
 		00947DE61389F1F1007A8BFD /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00947DE51389F1F1007A8BFD /* WebViewController.m */; };
 		00947DF01389F319007A8BFD /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00947DEF1389F319007A8BFD /* CoreTelephony.framework */; };
+		00947E0E138A6573007A8BFD /* libAppPL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00947E0C138A6573007A8BFD /* libAppPL.a */; };
+		00947E10138A7825007A8BFD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 00947E0F138A7825007A8BFD /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,12 +40,13 @@
 		00947DA71389E1D2007A8BFD /* WebTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebTestViewController.m; sourceTree = "<group>"; };
 		00947DAA1389E1D2007A8BFD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WebTestViewController.xib; sourceTree = "<group>"; };
 		00947DC71389EC53007A8BFD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		00947DDF1389F00E007A8BFD /* libAppPL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppPL.a; sourceTree = "<group>"; };
-		00947DE01389F00E007A8BFD /* WMAppPL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMAppPL.h; sourceTree = "<group>"; };
 		00947DE21389F1E7007A8BFD /* WebView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebView.xib; sourceTree = "<group>"; };
 		00947DE41389F1F1007A8BFD /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		00947DE51389F1F1007A8BFD /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		00947DEF1389F319007A8BFD /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		00947E0C138A6573007A8BFD /* libAppPL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppPL.a; sourceTree = "<group>"; };
+		00947E0D138A6573007A8BFD /* WMAppPL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMAppPL.h; sourceTree = "<group>"; };
+		00947E0F138A7825007A8BFD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +59,7 @@
 				00947D921389E1D2007A8BFD /* UIKit.framework in Frameworks */,
 				00947D941389E1D2007A8BFD /* Foundation.framework in Frameworks */,
 				00947D961389E1D2007A8BFD /* CoreGraphics.framework in Frameworks */,
-				00947DE11389F00E007A8BFD /* libAppPL.a in Frameworks */,
+				00947E0E138A6573007A8BFD /* libAppPL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,9 +69,8 @@
 		00947D821389E1D2007A8BFD = {
 			isa = PBXGroup;
 			children = (
-				00947DEF1389F319007A8BFD /* CoreTelephony.framework */,
-				00947DDF1389F00E007A8BFD /* libAppPL.a */,
-				00947DE01389F00E007A8BFD /* WMAppPL.h */,
+				00947E0C138A6573007A8BFD /* libAppPL.a */,
+				00947E0D138A6573007A8BFD /* WMAppPL.h */,
 				00947D971389E1D2007A8BFD /* WebTest */,
 				00947D901389E1D2007A8BFD /* Frameworks */,
 				00947D8E1389E1D2007A8BFD /* Products */,
@@ -87,6 +88,7 @@
 		00947D901389E1D2007A8BFD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				00947DEF1389F319007A8BFD /* CoreTelephony.framework */,
 				00947DC71389EC53007A8BFD /* SystemConfiguration.framework */,
 				00947D911389E1D2007A8BFD /* UIKit.framework */,
 				00947D931389E1D2007A8BFD /* Foundation.framework */,
@@ -119,6 +121,7 @@
 				00947D9A1389E1D2007A8BFD /* InfoPlist.strings */,
 				00947D9D1389E1D2007A8BFD /* WebTest-Prefix.pch */,
 				00947D9E1389E1D2007A8BFD /* main.m */,
+				00947E0F138A7825007A8BFD /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				00947DA51389E1D2007A8BFD /* MainWindow.xib in Resources */,
 				00947DAB1389E1D2007A8BFD /* WebTestViewController.xib in Resources */,
 				00947DE31389F1E7007A8BFD /* WebView.xib in Resources */,
+				00947E10138A7825007A8BFD /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

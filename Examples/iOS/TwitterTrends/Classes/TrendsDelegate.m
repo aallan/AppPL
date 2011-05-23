@@ -45,7 +45,7 @@
 	performanceLibrary.libraryDebug = YES;
 	performanceLibrary.libraryOff = NO;
 	performanceLibrary.waitForWiFi = YES;
-	performanceLibrary.status;
+	[performanceLibrary status];
     [[WMAppPL sharedWMAppPL] restoreQueue];
 	
     // Override point for customization after app launch    
