@@ -45,6 +45,11 @@
 #define ISO_TIMEZONE_UTC_FORMAT @"Z"
 #define ISO_TIMEZONE_OFFSET_FORMAT @"+%02d%02d"
 
+#define WMLog(fmt, ...) if ( [WMAppPL sharedWMAppPL].libraryDebug ) \
+{ \
+NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__); \
+}
+
 #define WM_SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
 \
 static classname *shared##classname = nil; \
