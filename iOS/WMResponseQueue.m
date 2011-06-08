@@ -130,7 +130,7 @@
         [response retain];
 		[self.queue removeObjectAtIndex:0];
 	}
-    return response;
+    return [response autorelease];
 	
 }
 
