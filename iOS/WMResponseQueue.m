@@ -121,7 +121,6 @@
 	[self.queue removeObject:response];
 }
 
-// returns a retained object
 - (WMResponse *)popResponse {
 	
 	WMResponse *response = nil;
